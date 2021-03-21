@@ -1,0 +1,33 @@
+.ui.card>.content>.header+.description, .ui.card>.content>.meta+.description, .ui.cards>.card>.content>.header+.description, .ui.cards>.card>.content>.meta+.description {
+    margin-top: .5em;
+    overflow: hidden;
+    clear: both;
+    max-height: 1.45vw;
+    color: grey
+}
+.center-register-text{
+    color: rgba(255,0,0,0.7);
+   width:180px;
+    margin: auto;
+}
+
+.form-container{
+   width: 400px;
+   margin: auto;
+}
+div.extra.content{
+    max-height: 3vw;
+    text-orientation:vertical !important
+}
+
+div.ui.top.attached.tabular.menu{
+    background: #D3CCE3;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #E9E4F0, #D3CCE3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+
+     background: #00F260;  
+background: -webkit-linear-gradient(to right, #0575E6, #00F260);
+ background: linear-gradient(to left, #0575E6, #03ACED); /*W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ 
+
+}
