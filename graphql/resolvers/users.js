@@ -102,11 +102,11 @@ module.exports = {
             const user = await User.findOne({email});
             if(!user){
                 
-                throw new UserInputError('User not found')
+                throw new UserInputError('Username not found', {errors:{username : 'Username and password cannot be found'}})
             }
             const isMatch = await bcrypt.compare(password, user.password)
             if(!isMatch){
-                throw new UserInputError('Wrong Credentials')
+                throw new UserInputError('Wrong Credentials', {errors:{username : 'Username and password cannot be found'}})
             }
            
               const token =  generateToken(user)
@@ -150,8 +150,8 @@ module.exports = {
                   user = await User.findOne({_id: user.id})
                    return user;
                 }
-                else return new Error('User is already upgraded to Seller')
-            }else return new Error('User not logged in')
+                else return new Error('User is already upgraded to Seller', {errors})
+            }else return new Error('User not logged in',{errors})
         },
 
         

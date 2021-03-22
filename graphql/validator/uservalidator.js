@@ -24,9 +24,13 @@ module.exports = {
     },
 
     validateLogin(email, password){
-        errors = {}
+        const errors = {}
         if(email.trim() === '' || password.trim() === ''){
             errors.general = 'Required fields cannot be empty'
+        }
+        const regEx  = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
+        if(!email.match(regEx)){
+            errors.email = 'Valid Email address is required'
         }
         return{
             errors,
