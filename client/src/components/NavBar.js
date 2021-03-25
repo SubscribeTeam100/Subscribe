@@ -16,8 +16,6 @@ function NavBar() {
 
     return (
       <div className='navbar'>
-        
-
         <Menu attached='top' tabular size = 'huge'>
           <Menu.Item
             name='home'
@@ -27,7 +25,7 @@ function NavBar() {
             to= '/'
             style = {activeItem === 'home'?{ color: 'gray'} : {color:'white'}} 
           >
-            Homepage
+            Home
           </Menu.Item>
 
           <Menu.Item
