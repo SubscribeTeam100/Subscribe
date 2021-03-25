@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Home from './pages/Home'
-import {SignupForm} from './pages/Register'
+import SignupForm from './pages/Register'
 import Search from './pages/Search'
 import NavBar from './components/NavBar'
 import {AccountBox} from './components/index'

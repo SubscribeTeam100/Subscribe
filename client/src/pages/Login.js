@@ -16,7 +16,7 @@ import { useMutation } from '@apollo/react-hooks';
 import {withRouter} from 'react-router-dom';
 
 function LoginForm(props) {
-  console.log(props)
+  
   const { switchToSignup } = useContext(AccountContext);
   const [errors, setErrors] = useState({});
 
@@ -28,9 +28,6 @@ function LoginForm(props) {
     update(
       proxy, result
     ) {
-    
-      console.log(props)
-     
       props.history.push('/');
     },
     onError(err) {

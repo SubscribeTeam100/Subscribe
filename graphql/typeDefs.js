@@ -6,7 +6,7 @@ module.exports = gql`
         email: String!
         password: String!
         confirmPassword: String!
-        phone: String!
+        phone: String
     }
     input ProductInput{
         name: String!

@@ -2,7 +2,7 @@
 module.exports = {
     validateRegisterInput(username, email, password, confirmPassword, phone){
         const errors = {};
-        if(username.trim() === '' || email.trim() === '' || password.trim() === '' || confirmPassword.trim() === ''|| phone.trim() === ''){
+        if(username.trim() === '' || email.trim() === '' || password.trim() === '' || confirmPassword.trim() === ''){
             errors.general = 'Required Fields cannot be empty'
         }
         const regEx  = /^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$/;
@@ -13,8 +13,10 @@ module.exports = {
             errors.password = 'Passwords do not match'
         }
         const phoneregEx = /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
-        if(!phone.match(phoneregEx)){
-            errors.phone = 'Invalid Phone number'
+        if(phone){
+            if(!phone.match(phoneregEx)){
+                errors.phone = 'Invalid Phone number'
+            }
         }
         return{
             errors,
