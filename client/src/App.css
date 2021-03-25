@@ -40,8 +40,8 @@ div.ui.top.attached.tabular.menu {
   background: -webkit-linear-gradient(to right, #0575e6, #00f260);
   background: linear-gradient(
     58deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 27%,
+    
+    rgb(3, 177, 230) 27%,
     rgba(0, 212, 255, 1) 100%
   ); /*W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

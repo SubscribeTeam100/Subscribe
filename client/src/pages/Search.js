@@ -1,48 +1,48 @@
-import React from 'react'
+// import React from 'react'
 
 
-function Search(){
-    const[errors, setErrors] = useState({
+// function Search(){
+//     const[errors, setErrors] = useState({
 
-    })
-    const [values, setValues] = useState({
+//     })
+//     const [values, setValues] = useState({
       
-      email:'',
+//       email:'',
       
-      password: '',
+//       password: '',
       
-    })
-    const onChange = (event) => {
-      setValues({...values,[event.target.name]:event.target.value})
-    }
+//     })
+//     const onChange = (event) => {
+//       setValues({...values,[event.target.name]:event.target.value})
+//     }
   
-    const [loginUser, {loading}] = useMutation(LOGIN_USER,{
-      update(proxy, result){
-        props.history.push('')
-      },
-      onError(err){
+//     const [loginUser, {loading}] = useMutation(LOGIN_USER,{
+//       update(proxy, result){
+//         props.history.push('')
+//       },
+//       onError(err){
         
-        setErrors(err.graphQLErrors[0].extensions.exception.errors)
+//         setErrors(err.graphQLErrors[0].extensions.exception.errors)
       
-      },
-      variables: values
-    })
+//       },
+//       variables: values
+//     })
   
-    const onSubmit = (event)=>{
-      event.preventDefault();
+//     const onSubmit = (event)=>{
+//       event.preventDefault();
       
-      searchProducts();
+//       searchProducts();
       
-    }  
+//     }  
 
 
-    return (
-       <div>
-            <Form onSubmit={onSubmit} >
+//     return (
+//        <div>
+//             <Form onSubmit={onSubmit} >
             
-            </Form>
-       </div>
-    )
-}
+//             </Form>
+//        </div>
+//     )
+// }
 
-export default Search;
+// export default Search;
