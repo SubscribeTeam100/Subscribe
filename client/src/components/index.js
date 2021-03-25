@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { LoginForm } from "../pages/Login";
+import  LoginForm  from "../pages/Login";
 import { motion } from "framer-motion";
 import { AccountContext } from "../components/AccountContext";
 import { SignupForm } from "../pages/Register";
@@ -160,7 +160,7 @@ export function AccountBox(props) {
           )}
         </TopContainer>
         <InnerContainer>
-          {active === "signin" && <LoginForm />}
+          {active === "signin" && <LoginForm props = {props}/>}
           {active === "signup" && <SignupForm />}
         </InnerContainer>
       </BoxContainer>

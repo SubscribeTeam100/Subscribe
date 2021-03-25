@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState,useContext } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -9,36 +9,46 @@ import {
 } from "../components/common";
 import { Marginer } from "./Marginer";
 import { AccountContext } from "../components/AccountContext";
-import {useForm} from '../../util/submitbutton'
+import {useForm} from '../util/submitbutton'
 import gql from 'graphql-tag'
 import {Form} from 'semantic-ui-react'
+import { useMutation } from '@apollo/react-hooks';
+import {withRouter} from 'react-router-dom';
 
-
-export function LoginForm(props) {
+function LoginForm(props) {
+  console.log(props)
   const { switchToSignup } = useContext(AccountContext);
+  const [errors, setErrors] = useState({});
+
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-    username: '',
+    email: '',
     password: ''
+  })
+  const [LoginUser, { loading }] = useMutation(LOGINUSER, {
+    update(
+      proxy, result
+    ) {
+    
+      console.log(props)
+     
+      props.history.push('/');
+    },
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: values
   });
-const [LoginUser , {loading}] =useMutation(LOGINUSER, {
-  update(_, result){
-    props.history.push('/')
-    console.log(result)
-  },
-  onError(err){(err.graphQLErrors[0].extensions.exception.errors)},
-  variable : values
-})
 
 function loginUserCallback(){
   LoginUser()
 }
   return (
     <div>
-      <Form onSubmit= {onSubmit}>
+      <Form onSubmit= {onSubmit} noValidate className= {loading? 'loading' : ''}>
       <BoxContainer>
       <FormContainer>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Password" />
+        <Input type="text" name = "email" placeholder="Email"  value= {values.email} onChange = {onChange}/>
+        <Input type="password" name = "password" placeholder="Password" value= {values.password} onChange = {onChange}/>
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <MutedLink href="#">Forget your password?</MutedLink>
@@ -64,17 +74,22 @@ function loginUserCallback(){
       )}
   </div>)
 }
+
+
 const LOGINUSER = gql`
 
-  mutation: LoginUser{email : $email, password : $password}
+  mutation login($email : String!, $password : String!)
 {
   login (email : $email, password : $password){
-    id,
+    
     username,
     isSeller,
+    token
 
   }
 }
 
 
-`
+`;
+
+export default withRouter(LoginForm);
