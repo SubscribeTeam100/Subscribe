@@ -1,6 +1,5 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
-import HorizontalSlider from 'react-horizontal-slider'
 
 function ProductCard({product:{id, name,isVisible,overallRating,sellerID, description}}){
    if(!overallRating){

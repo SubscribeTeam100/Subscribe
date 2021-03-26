@@ -1,15 +1,10 @@
 import React from 'react'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Card, Icon, Image } from 'semantic-ui-react'
-
 import { Container, Grid,  Loader } from 'semantic-ui-react'
 import ProductCard from '../components/ProductCard'
 
-function Home(){
+function Home() {
     const {loading, data:{getProducts: products} = {}} = useQuery(get_products)
     return (
        <Container>
@@ -28,7 +23,8 @@ function Home(){
            )}
           </Grid.Row>
           </Grid>  
-       </Container>)
+       </Container>
+       )
 }
   
 
