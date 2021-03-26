@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Icon, Menu, Segment } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
+
 function NavBar() {
   const currentpage = window.location.pathname
     var pathname = currentpage.slice(1)
@@ -39,17 +40,6 @@ function NavBar() {
             You
           </Menu.Item>
 
-          <Menu.Item
-            name='Register'
-            active={activeItem === 'Register'}
-            onClick={handleItemClick}
-            as= {Link}
-            to= '/Register'
-            style = {activeItem === 'Register'?{ color: 'gray'} : {color:'white'}} 
-          >
-            Join
-          </Menu.Item>
-
           <Menu.Menu position='right'>
             <Menu.Item
               name='Search'
@@ -58,11 +48,11 @@ function NavBar() {
               as = {Link} 
               to = '/Search'
               style = {activeItem === 'Search'?{ color: 'gray'} : {color:'white'}} 
-               
-            >
-                
-              <Icon name='search'  />
-              Search
+              >
+              <div className='search'>
+                <Icon name='search'/>
+                Search
+              </div>
             </Menu.Item>
           </Menu.Menu>
         </Menu>

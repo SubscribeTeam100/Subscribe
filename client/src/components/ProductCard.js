@@ -32,4 +32,4 @@ function ProductCard({product:{id, name,isVisible,overallRating,sellerID, descri
   </Card>)
 }
 
-export default ProductCard
+export default ProductCard;
