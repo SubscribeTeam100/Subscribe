@@ -11,14 +11,6 @@ import ProductCard from '../components/ProductCard'
 
 function Home(){
     const {loading, data:{getProducts: products} = {}} = useQuery(get_products)
-    let settings = {
-      dot: true,
-      infinite: true,
-      speed: 500,
-      slideToShow: 3,
-      slideToScroll: 1,
-      cssEase: "linear"
-  }
     return (
        <Container>
             <Grid columns = {5}>
@@ -35,8 +27,7 @@ function Home(){
                )
            )}
           </Grid.Row>
-          </Grid>
-          
+          </Grid>  
        </Container>)
 }
   

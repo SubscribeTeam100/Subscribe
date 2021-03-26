@@ -20,6 +20,7 @@
     "mongoose": "^5.12.2",
     "nodemon": "^2.0.7",
     "react-elastic-carousel": "^0.11.2",
+    "react-horizontal-slider": "^1.1.1",
     "react-router-dom": "^5.2.0",
     "react-slick": "^0.28.1",
     "semantic-ui-css": "^2.4.1",

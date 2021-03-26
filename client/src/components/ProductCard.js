@@ -1,11 +1,10 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
-
+import HorizontalSlider from 'react-horizontal-slider'
 
 function ProductCard({product:{id, name,isVisible,overallRating,sellerID, description}}){
    if(!overallRating){
-    overallRating = 'No ratings yet' 
-    
+    overallRating = 'No ratings yet'
    }
     
    return(<Card>
@@ -29,7 +28,8 @@ function ProductCard({product:{id, name,isVisible,overallRating,sellerID, descri
       )}
        </a>
     </Card.Content>
-  </Card>)
+  </Card>
+)
 }
 
 export default ProductCard;
