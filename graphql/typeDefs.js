@@ -27,7 +27,7 @@ module.exports = gql`
     input AddressInput{
             name: String!,
             Address1: String!,
-            Address2: String!,
+            Address2: String,
             city: String!,
             state: String!,
             country: String!,
@@ -65,7 +65,7 @@ module.exports = gql`
         createdAt: String!,
         name: String!,
         Address1: String!,
-        Address2: String!,
+        Address2: String,
         city: String!,
         state: String!,
         country: String!,

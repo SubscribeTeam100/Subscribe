@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Icon, Menu, Segment } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
+import {AuthContext} from '../context/auth'
+
+
 function NavBar() {
   const currentpage = window.location.pathname
     var pathname = currentpage.slice(1)
     if(pathname === ''){
         pathname = 'home'
     }
+
+    const {user, logout} = useContext(AuthContext);
   
     const [activeItem, setActiveItem] = useState(pathname)
 
@@ -28,29 +33,9 @@ function NavBar() {
             Home
           </Menu.Item>
 
-          <Menu.Item
-            name='Login'
-            active={activeItem === 'Login'}
-            onClick={handleItemClick}
-            as= {Link}
-            to= '/login'
-            style = {activeItem === 'Login'?{ color: 'gray'} : {color:'white'}} 
-          >
-            You
-          </Menu.Item>
-
-          <Menu.Item
-            name='Register'
-            active={activeItem === 'Register'}
-            onClick={handleItemClick}
-            as= {Link}
-            to= '/Register'
-            style = {activeItem === 'Register'?{ color: 'gray'} : {color:'white'}} 
-          >
-            Join
-          </Menu.Item>
-
+          
           <Menu.Menu position='right'>
+          
             <Menu.Item
               name='Search'
               active={activeItem === 'Search'}
@@ -64,6 +49,17 @@ function NavBar() {
               <Icon name='search'  />
               Search
             </Menu.Item>
+            <Menu.Item 
+            name='Login'
+            active={activeItem === 'Login'}
+            onClick={handleItemClick}
+            as= {Link}
+            to= {user? "/logout" : "/login"}
+            style = {activeItem === 'Login'?{ color: 'gray'} : {color:'white'}} 
+          >
+           {user? "Logout" : "Login/Signup"}
+         </Menu.Item>
+         
           </Menu.Menu>
         </Menu>
       </div>

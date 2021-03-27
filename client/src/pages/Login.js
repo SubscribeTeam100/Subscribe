@@ -14,12 +14,13 @@ import gql from 'graphql-tag'
 import {Form} from 'semantic-ui-react'
 import { useMutation } from '@apollo/react-hooks';
 import {withRouter} from 'react-router-dom';
+import {AuthContext } from '../context/auth'
 
 function LoginForm(props) {
   
   const { switchToSignup } = useContext(AccountContext);
   const [errors, setErrors] = useState({});
-
+  const loginContext = useContext(AuthContext)
   const { onChange, onSubmit, values } = useForm(loginUserCallback, {
     email: '',
     password: ''
@@ -28,6 +29,7 @@ function LoginForm(props) {
     update(
       proxy, result
     ) {
+      loginContext.login(result.data.login)
       props.history.push('/');
     },
     onError(err) {
@@ -52,8 +54,8 @@ function loginUserCallback(){
       <Marginer direction="vertical" margin="1.6em" />
       <SubmitButton type="submit">Signin</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
-      <MutedLink href="#">
-        Don't have an accoun?{" "}
+      <MutedLink href="#" onClick={switchToSignup}>
+        Don't have an account?{" "}
         <BoldLink href="#" onClick={switchToSignup}>
           Signup
         </BoldLink>

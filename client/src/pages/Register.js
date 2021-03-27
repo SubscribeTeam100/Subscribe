@@ -14,6 +14,9 @@ import {useForm} from '../util/submitbutton'
 import gql from 'graphql-tag'
 import {useMutation} from '@apollo/react-hooks'
 import {withRouter} from 'react-router-dom'
+import {AuthContext } from '../context/auth'
+
+
 
 function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
@@ -26,13 +29,14 @@ function SignupForm(props) {
   const onClick = (event) =>{
     event.preventDefault();
   }
-
+  const registerContext = useContext(AuthContext)
   const [ registerUser ,{loading}] = useMutation(REGISTER_USER,{
     update(_,result){
       props.history.push('/')
+      registerContext.login(result.data.register)
     },onError(err){
       console.log(err)
-      alert('ERROR')
+      
       setErrors(err.graphQLErrors[0].extensions.exception.errors)
     }, 
     variables:values
@@ -58,7 +62,7 @@ function SignupForm(props) {
       <Marginer direction="vertical" margin={10} />
       <SubmitButton type="submit">Signup</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
-      <MutedLink href="#">
+      <MutedLink href="#" onClick={switchToSignin}>
         Already have an account?
         <BoldLink href="#" onClick={switchToSignin}>
           Signin
@@ -85,7 +89,8 @@ const REGISTER_USER = gql`
     register(registerInput:{username: $username, password:$password, confirmPassword:$confirmPassword, phone:$phone, email:$email}){
       id,
       token,
-      isSeller
+      isSeller,
+      username
     }
   }
 

@@ -17,7 +17,7 @@ function Home(){
       
             </Grid.Row>
             <Grid.Row>
-           {loading?(<h1>LOADINF....</h1>) :(
+           {loading?(<h1><Loader/></h1>) :(
                products &&
                products.map((product)=>(
                  

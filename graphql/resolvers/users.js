@@ -134,7 +134,7 @@ module.exports = {
                     ...user._doc,
                     id: user._id
                 }
-            }
+            } else throw new UserInputError('Not Logged in', {errors:{general : 'Not Logged In'}})
 
 
 
