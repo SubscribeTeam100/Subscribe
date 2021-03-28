@@ -8,7 +8,7 @@ import NavBar from './components/NavBar'
 import {AccountBox} from './components/index'
 import 'semantic-ui-css/semantic.min.css'
 import './App.css';
-import AddAddressForm from './components/FormComponents/addAddressForm'
+import AddProductForm from './components/FormComponents/addProductForm'
 import {AuthProvider} from './context/auth'
 import AuthRouteifLoggedIn from './context/AuthRoute'
 
@@ -22,7 +22,7 @@ function App() {
       <AuthRouteifLoggedIn exact path = '/login' component= {AccountBox}/>
       
       <Route exact path = './Search' component = {Search}/>
-      
+      <Route exact path = '/addProduct' component = {AddProductForm}/>
     </Router>
     </AuthProvider>
   );

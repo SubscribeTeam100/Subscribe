@@ -24,7 +24,8 @@ const productSchema = new Schema({
     price: String,
     overallRating: Number,
     subscriptions:[String],
-    tags: [String]
+    tags: [String],
+    ImageLink: [String]
 })
 
 module.exports = model ('Product', productSchema)

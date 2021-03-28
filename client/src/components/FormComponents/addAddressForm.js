@@ -84,11 +84,10 @@ const AddAddressForm = ()=> {
 
     const [addAddress, {loading}] = useMutation(ADD_ADDRESS,{
         update(_,results){
-            alert('success')
+            alert('Address Added')
         },
         onError(err){
-            alert('error') 
-            console.log(err)
+             
             setErrors(err.graphQLErrors[0].extensions.exception.errors)
         },
         variables: {
@@ -116,13 +115,15 @@ const AddAddressForm = ()=> {
                 placeholder = 'Name'
                 value = {values.name}
                 onChange = {onChange}
+                required
             />
             <Form.Input
-                label='Address 1 *'
+                label='Address 1'
                 name = 'Address1'
                 placeholder = 'Address 1'
                 value = {values.Address1}
                 onChange = {onChange}
+                required
             />
             <Form.Input
                 label='Address 2'
@@ -137,6 +138,7 @@ const AddAddressForm = ()=> {
                 placeholder = 'City'
                 value = {values.city}
                 onChange = {onChange}
+                required
             />
             <Form.Select
                 label='State'
@@ -146,6 +148,7 @@ const AddAddressForm = ()=> {
                     handleItemClick
                 }
                 placeholder = 'state'
+                required
             />
             
            
@@ -155,6 +158,7 @@ const AddAddressForm = ()=> {
                 placeholder = 'Zip'
                 value = {values.zip}
                 onChange = {onChange}
+                required
             />
             <Form.Input
                 label='Country'
@@ -162,6 +166,7 @@ const AddAddressForm = ()=> {
                 placeholder = 'Country'
                 value = {values.country}
                 onChange = {onChange}
+                required
             />
             <Form.Input
                 label='Email'
@@ -169,6 +174,7 @@ const AddAddressForm = ()=> {
                 placeholder = 'Email'
                 value = {values.email}
                 onChange = {onChange}
+                required
             />
             <Form.Input
                 label='Phone'
@@ -176,6 +182,7 @@ const AddAddressForm = ()=> {
                 placeholder = 'Phone'
                 value = {values.phone}
                 onChange = {onChange}
+                required
             />            
 
 

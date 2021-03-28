@@ -8,8 +8,8 @@ const authHeader = require('../validator/auth-user')
 const Product = require('../../models/Product')
 const Address = require('../../models/Address')
 const Review = require('../../models/Review')
+const {addressInputValidator} = require('../validator/address-validator')
 
-const {MONGODB} = require('../../config')
 // const mongoose = require('mongoose')
 
 function generateToken(user){
@@ -119,6 +119,10 @@ module.exports = {
 
         },
         async addAddress(_,{addressInput: {name, Address1, Address2, city, state, country, zip, phone, email}}, context){
+            const{errors,valid } = addressInputValidator(name, Address1, Address2, city, state, country, zip, phone, email);
+            if(!valid){
+                throw new UserInputError('Errors', {errors}) 
+            }
             const presentuser = authHeader(context);
             if(presentuser){
                 const user = await User.findById(presentuser.id);

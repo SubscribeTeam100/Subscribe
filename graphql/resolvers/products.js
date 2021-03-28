@@ -42,10 +42,12 @@ Query:{
         
     },
 Mutation:{
-        async addProduct(_, {productInput: { name, description, price, isVisible, tags}}, context){
+        async addProduct(_, {productInput: { name, description, price, isVisible, tags, ImageLink}}, context){
             const user = authHeader(context);
             const {errors,valid} = productInputValidator(name, description, price)
-
+            if(!valid){
+                throw new ("Errors", {errors})
+            }
             if(valid){
                 if(user){
                     const isSeller = user.isSeller;
@@ -65,7 +67,8 @@ Mutation:{
                                 isVisible,
                                 reviewPoints: 0,
                                 overallRating: 0.0,
-                                tags
+                                tags,
+                                ImageLink
                             })
                     
                         const result = await newProduct.save()

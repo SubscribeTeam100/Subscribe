@@ -14,6 +14,7 @@ module.exports = gql`
         price: String!
         isVisible: Boolean!
         tags: [String]
+        ImageLink: [String]
     }
 
     input ReviewInput{
@@ -125,6 +126,7 @@ module.exports = gql`
         overallRating: Float
         subscriptions:[String],
         tags: [String]
+        ImageLink: [String]
     }
 
     type Query{
