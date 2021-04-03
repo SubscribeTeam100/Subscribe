@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Icon, Menu, Segment } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../context/auth'
-
+import Cart from '../pages/Cart'
 
 function NavBar() {
   const currentpage = window.location.pathname
@@ -25,7 +25,7 @@ function NavBar() {
           <Menu.Item
             name='home'
             active={activeItem === 'home'}
-            onClick={handleItemClick}
+            onClick={user? logout : handleItemClick}
             as= {Link}
             to= '/'
             style = {activeItem === 'home'?{ color: 'gray'} : {color:'white'}} 
@@ -50,16 +50,26 @@ function NavBar() {
               Search
             </Menu.Item>
             <Menu.Item 
-            name='Login'
-            active={activeItem === 'Login'}
+            name={user? "Logout" : "Login"}
+            active={activeItem === 'Login' || activeItem ==='Logout'}
             onClick={handleItemClick}
             as= {Link}
-            to= {user? "/logout" : "/login"}
-            style = {activeItem === 'Login'?{ color: 'gray'} : {color:'white'}} 
+            to= {"/login"}
+            style = {activeItem === 'Login'|| activeItem === 'Logout'?{ color: 'gray'} : {color:'white'}} 
           >
            {user? "Logout" : "Login/Signup"}
          </Menu.Item>
          
+         <Menu.Item 
+            name='Cart'
+            active={activeItem === 'Cart'}
+            onClick={handleItemClick}
+            as= {Link}
+            to= '/Cart'
+            style = {activeItem === 'Cart'?{ color: 'gray'} : {color:'white'}} 
+          >
+           Cart {Cart.numberofItems}
+         </Menu.Item>
           </Menu.Menu>
         </Menu>
       </div>

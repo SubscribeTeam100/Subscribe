@@ -4,11 +4,13 @@ import { Card, Icon, Image } from 'semantic-ui-react'
 
 function ProductCard({product:{id, name,isVisible,overallRating,sellerID, description}}){
    if(!overallRating){
-    overallRating = 'No ratings yet' 
+    overallRating = 'No ratings' 
     
    }
     
-   return(<Card>
+   return(<div className = 'product-card'>
+    
+     <Card href = {`/p/${id}`}>
     <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
     <Card.Content>
       <Card.Header>{name}</Card.Header>
@@ -20,7 +22,7 @@ function ProductCard({product:{id, name,isVisible,overallRating,sellerID, descri
     <Card.Content extra>
       <a>
        
-      {overallRating === "No ratings yet" ? (
+      {overallRating === "No ratings" ? (
         `${overallRating}.`
       ) : (
         <>
@@ -29,7 +31,8 @@ function ProductCard({product:{id, name,isVisible,overallRating,sellerID, descri
       )}
        </a>
     </Card.Content>
-  </Card>)
+  </Card>
+   </div>)
 }
 
 export default ProductCard

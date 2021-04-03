@@ -158,7 +158,17 @@ module.exports = {
             }else return new Error('User not logged in',{errors})
         },
 
-        
+        async addtoCart(_,{productID}, context){
+            let user = authHeader(context);
+            if(user){
+                console.log(user)
+                user = await User.findById(user.id)
+                
+                user.Cart.unshift(productID);
+                await user.save();
+                return('Successfully added to cart')
+            }else throw new Error('User not logged in!',{errors:{general:'User not logged in'}})
+        }
         // async addSettlement(_, {settlementInput:{ number, CVV, expMonth, expYear}, addressInput:{name, Address1, Address2, city, state, country, zip, phone, email}}, context){
         //     number = await bcrypt.hash(number, 12)
         //     const currentuser = authHeader(context);

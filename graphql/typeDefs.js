@@ -112,6 +112,7 @@ module.exports = gql`
         addressID: [String]
        reviews:[UserReviewsInfo]
        subscriptions:[String]
+       cart: [String]
     }
     
     type Product{
@@ -155,6 +156,6 @@ module.exports = gql`
         # addSettlement(settlementInput:SettlementInput!, addressInput: AddressInput!): User!
         addReview(reviewInput:ReviewInput!): Product!
         deleteReview(reviewId: ID!, productId: ID!): Product!
-        
+        addtoCart(productID: ID!): String
     }
 `

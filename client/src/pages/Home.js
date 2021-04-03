@@ -11,7 +11,7 @@ function Home(){
     
     return (
        <Container>
-            <Grid columns = {5}>
+            <Grid columns = {5} container>
             
             <Grid.Row>
       
@@ -53,6 +53,7 @@ const get_products = gql`
     overallRating
     sellerID
     description
+    ImageLink
   }
 } 
 

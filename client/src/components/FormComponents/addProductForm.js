@@ -185,15 +185,28 @@ const AddProductForm = ()=> {
 };
 
 const ADD_PRODUCT = gql`
-    mutation addProduct($name:String!, $description:String!,$price: String!,$isVisible:Boolean!,$tags:[String],$ImageLink:[String]) {
-        addProduct(productInput:{name: $name, description: $description, price: $price,isVisible: $isVisible,tags: $tags,ImageLink: $ImageLink}){
-            id,
-            createdAt,
-            
-           
-        }
+  mutation addProduct(
+    $name: String!
+    $description: String!
+    $price: String!
+    $isVisible: Boolean!
+    $tags: [String]
+    $ImageLink: [String]
+  ) {
+    addProduct(
+      productInput: {
+        name: $name
+        description: $description
+        price: $price
+        isVisible: $isVisible
+        tags: $tags
+        ImageLink: $ImageLink
+      }
+    ) {
+      id
+      createdAt
     }
-
-`
+  }
+`;
 
 export default AddProductForm;

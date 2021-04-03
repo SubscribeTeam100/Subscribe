@@ -11,7 +11,8 @@ import './App.css';
 import AddProductForm from './components/FormComponents/addProductForm'
 import {AuthProvider} from './context/auth'
 import AuthRouteifLoggedIn from './context/AuthRoute'
-
+import ProductPage from './pages/ProductPage'
+import Cart from './pages/Cart'
 
 function App() {
   return (
@@ -21,8 +22,10 @@ function App() {
       <Route exact path = '/' component= {Home}/>
       <AuthRouteifLoggedIn exact path = '/login' component= {AccountBox}/>
       
+      <Route exact path = '/p/:productID' component = {ProductPage} />
       <Route exact path = './Search' component = {Search}/>
       <Route exact path = '/addProduct' component = {AddProductForm}/>
+      <Route exact path = '/Cart' component = {Cart} />
     </Router>
     </AuthProvider>
   );

@@ -1,13 +1,4 @@
-.ui.card > .content > .header + .description,
-.ui.card > .content > .meta + .description,
-.ui.cards > .card > .content > .header + .description,
-.ui.cards > .card > .content > .meta + .description {
-  margin-top: 0.5em;
-  overflow: hidden;
-  clear: both;
-  max-height: 1.45vw;
-  color: grey;
-}
+
 .center-register-text {
   color: rgba(255, 0, 0, 0.7);
   width: 180px;
@@ -18,10 +9,7 @@
   width: 400px;
   margin: auto;
 }
-div.extra.content {
-  max-height: 3vw;
-  text-orientation: vertical !important;
-}
+
 
 div.ui.top.attached.tabular.menu {
   background: #d3cce3; /* fallback for old browsers */
@@ -44,4 +32,39 @@ div.ui.top.attached.tabular.menu {
     rgb(3, 177, 230) 27%,
     rgba(0, 212, 255, 1) 100%
   ); /*W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.product-card{
+  margin-bottom: 20px;
+  display: wrap;
+  /* overflow: hidden; */
+}
+
+.ui.card>.content>.header {
+font-size: 1em !important;
+
+overflow: hidden;
+
+}
+.ui.card>.extra{
+  overflow: hidden;
+  font-size: 80%;
+  display: inline-block;
+  white-space:nowrap;
+}
+
+
+.ui.card>.content>.header+.description, .ui.card>.content>.header {
+ max-height: 1.45vw;
+ overflow: hidden;
+ font: 1vw;
+ margin-top: 0.3vw;
+ white-space:nowrap;
+
+}
+
+.currentImage{
+  width: '20vw';
+   height : '20vw';
+
 }

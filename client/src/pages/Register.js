@@ -35,8 +35,7 @@ function SignupForm(props) {
       props.history.push('/')
       registerContext.login(result.data.register)
     },onError(err){
-      console.log(err)
-      
+     
       setErrors(err.graphQLErrors[0].extensions.exception.errors)
     }, 
     variables:values
