@@ -7,12 +7,13 @@ import ProductCard from '../components/ProductCard'
 function Home(){
     const {loading, data:{getProducts: products} = {}} = useQuery(get_products)
     
-    
+    let width = window.innerWidth
+    console.log('screewidth :', width)
     
     return (
        <Container>
-            <Grid columns = {5} container>
-            
+            <Grid  container columns = {(width < 700) ? 1 : 5}>
+            <h1>The current width is : {width}</h1>
             <Grid.Row>
       
             </Grid.Row>

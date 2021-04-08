@@ -6,7 +6,7 @@ import AddtoCart from "../components/AddtoCart";
 import ImageCard from "../components/ImageCard";
 import {AuthContext} from '../context/auth'
 import {useMutation} from '@apollo/react-hooks'
-
+import {Redirect} from 'react-router-dom'
 function ProductPage(props) {
   const id = props.match.params.productID;
   const { loading, error, data } = useQuery(FETCH_PRODUCT, {
@@ -19,8 +19,7 @@ function ProductPage(props) {
   const[addtoCart,{loadingaddtocart}] = useMutation(ADDTOCART,{
     update(_,result){
         //TODO: remove this alert
-        
-        alert('success')
+      
     },
     onError(err){
        
@@ -35,6 +34,11 @@ const handleClick=(e)=>{
     AddtoCart(id, user, addtoCart)
   }
 
+  const redirectTohome = () =>{
+    localStorage.removeItem('redirectfromproduct')
+    localStorage.setItem('redirectfromproduct', id)
+    props.history.push('/login')
+  }
   if (loading) {
     return <Loader />;
   } else {
@@ -48,7 +52,7 @@ const handleClick=(e)=>{
           <Grid.Column width={9}>{product.description}</Grid.Column>
           <Grid.Column width={3}>
             <Container>
-              <Button primary onClick = {handleClick}>Add to Cart</Button>
+              <Button primary onClick = {user?handleClick: redirectTohome}>Add to Cart</Button>
             </Container>
           </Grid.Column>
         </Grid>

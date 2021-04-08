@@ -13,6 +13,7 @@ import {AuthProvider} from './context/auth'
 import AuthRouteifLoggedIn from './context/AuthRoute'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
+import Dashboard from './pages/Dashboard'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Route exact path = './Search' component = {Search}/>
       <Route exact path = '/addProduct' component = {AddProductForm}/>
       <Route exact path = '/Cart' component = {Cart} />
+      <Route exact path = '/dashboard' component = {Dashboard} />
     </Router>
     </AuthProvider>
   );

@@ -15,7 +15,11 @@ function NavBar() {
   
     const [activeItem, setActiveItem] = useState(pathname)
 
-  const handleItemClick = (e, { name }) => setActiveItem(name)
+  const handleItemClick = (e, { name }) => {
+    
+    setActiveItem(name)
+    
+}
 
   
 
@@ -25,7 +29,7 @@ function NavBar() {
           <Menu.Item
             name='home'
             active={activeItem === 'home'}
-            onClick={user? logout : handleItemClick}
+            onClick={handleItemClick}
             as= {Link}
             to= '/'
             style = {activeItem === 'home'?{ color: 'gray'} : {color:'white'}} 
@@ -50,14 +54,14 @@ function NavBar() {
               Search
             </Menu.Item>
             <Menu.Item 
-            name={user? "Logout" : "Login"}
-            active={activeItem === 'Login' || activeItem ==='Logout'}
-            onClick={handleItemClick}
+            name={ "Login"}
+            active={activeItem === 'Login'}
+            onClick={user? logout: handleItemClick}
             as= {Link}
-            to= {"/login"}
-            style = {activeItem === 'Login'|| activeItem === 'Logout'?{ color: 'gray'} : {color:'white'}} 
+            to= { '/login' }  //TODO: fix this
+            style = {activeItem === 'Login'?{ color: 'gray'} : {color:'white'}} 
           >
-           {user? "Logout" : "Login/Signup"}
+          {user?"Logout": "Login/SignUp"}
          </Menu.Item>
          
          <Menu.Item 

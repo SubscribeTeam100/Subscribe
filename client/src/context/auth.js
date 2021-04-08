@@ -9,7 +9,8 @@ if(localStorage.getItem('jwtToken')){
     const token = jwtDecode(localStorage.getItem('jwtToken'))
 
     if(token.exp * 1000 < Date.now()){
-        localStorage.removeItem('jwtToken')
+        localStorage.removeItem('jwtToken');
+        localStorage.removeItem("cart");
     }else{
         initialState.user = token
     }
@@ -20,6 +21,7 @@ const AuthContext = createContext({
     user: null,
     login:(userdata) =>{},
     logout:(data) =>{}
+
 })
 
 function authReducer(state, action){
@@ -30,9 +32,11 @@ function authReducer(state, action){
                 user: action.payload
             }
         case 'LOGOUT':
+            
             return{
                 ...state,
-                user:null
+                user:null,
+               
             }
         
         default:
@@ -54,10 +58,12 @@ function AuthProvider(props){
     }
 
     function logout(userdata){
-        localStorage.removeItem("jwttoken")
+        localStorage.removeItem("jwtToken")
+        localStorage.removeItem("cart");
         dispatch({
             type : 'LOGOUT'
         })
+        
     }
 
     return(

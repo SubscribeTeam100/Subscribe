@@ -42,6 +42,9 @@ const userSchema = new Schema({
         productID: String,
     }],
     subscriptions:[String],
-    Cart:[String]
+    Cart:[{
+        productID: String,
+        quantity: Number
+    }]
 })
 module.exports = model ('User', userSchema)

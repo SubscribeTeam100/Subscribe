@@ -202,7 +202,7 @@ Mutation:{
                         await review.delete()
                         
                         return product;
-                    }else throw new UserInputError("Review not found")
+                    }else throw new UserInputError("Review not found",{errors})
                }
            }
 
