@@ -19,7 +19,7 @@ export default function Cart(props) {
     Change_Quantity,
     {
       update(_, result) {
-        console.log("changequantity suceessful");
+        
         this.inputRef.current.focus()
       },
       onError(err) {
@@ -85,6 +85,8 @@ export default function Cart(props) {
 
     function handleremoveItem(productid) {
       console.log(productid);
+
+      //TODO: remove item
     }
 
     return (
@@ -105,7 +107,7 @@ export default function Cart(props) {
                   placeholder={getQuantity(product.id)}
                   onChange={changeQuantity}
                   label="Quantity"
-                  ref={this.inputRef}
+                  
                 />
                 <p>
                   <button onClick={handleremoveItem(product.id)}>

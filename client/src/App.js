@@ -14,7 +14,8 @@ import AuthRouteifLoggedIn from './context/AuthRoute'
 import ProductPage from './pages/ProductPage'
 import Cart from './pages/Cart'
 import Dashboard from './pages/Dashboard'
-
+import ProfilePage from './pages/profile'
+import ManageSubscription from './pages/ManageSubscription'
 function App() {
   return (
     <AuthProvider>
@@ -28,6 +29,8 @@ function App() {
       <Route exact path = '/addProduct' component = {AddProductForm}/>
       <Route exact path = '/Cart' component = {Cart} />
       <Route exact path = '/dashboard' component = {Dashboard} />
+      <Route exact path = '/dashboard/profile' component = {ProfilePage} />
+      <Route exact path = '/subscriptions/:subscriptionID' component = {ManageSubscription} />
     </Router>
     </AuthProvider>
   );

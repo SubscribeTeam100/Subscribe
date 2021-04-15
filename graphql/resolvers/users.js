@@ -75,6 +75,23 @@ module.exports = {
       throw new Error("Only authorized seller can view the address");
     },
 
+    async getUserAddresses(_,{},context){
+      let user = authHeader(context);
+      if(user){
+        user = await User.findById(user.id);
+        let userAddresses = user.addressID
+        let addresses = []
+        for (i in userAddresses){
+          currentaddress = await Address.findById(userAddresses[i])
+          if(currentaddress){
+            addresses.push(currentaddress)
+          }
+          
+        }
+        return addresses
+      }else throw new Error('No user Logged in', {errors:{general:"User not logged in"}})
+    },
+
     async getSellerProducts(_, {}, context) {
       const user = authHeader(context);
       if (user.isSeller) {

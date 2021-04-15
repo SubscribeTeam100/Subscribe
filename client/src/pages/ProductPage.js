@@ -43,6 +43,9 @@ const handleClick=(e)=>{
     return <Loader />;
   } else {
     const product = data.getProduct;
+    if(!product){
+      return(<div>Cannot find Product. Error 404. <a href = '../../'>GO HOME</a></div>)
+    }
     return (
       <div className="produt-row">
         <Grid>

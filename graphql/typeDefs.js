@@ -47,6 +47,7 @@ module.exports = gql`
     frequency: String!
     sellerID: String!
     settlement: SettlementInput
+    nextDeliveryscheduledfor: String
   }
   input CartItem{
     productID: ID!
@@ -61,7 +62,15 @@ module.exports = gql`
     reviewID: ID!
     userID: ID
   }
+  type DeliveryInfo{
+    createdAt: String!
+    shipped: Boolean
+    addressID: ID!
+    tracking: String,
+    trackingCarrier:String,
+    settlementID:String
 
+  }
   type Address {
     id: ID!
     createdAt: String!
@@ -85,6 +94,8 @@ module.exports = gql`
     userID: String!
     createdAt: String!
     isActive: Boolean!
+    delivered:[DeliveryInfo]
+    nextDelivery: DeliveryInfo
   }
 
   type Review {
@@ -144,7 +155,9 @@ module.exports = gql`
     getProduct(productId: ID): Product
     getCart: [CartItemsInfo]
     getProductfromCart: [Product]
-    
+    getUserAddresses: [Address]
+    getSubscriptionProducts: [Product]
+    getSubscription(subscriptionId: ID!): Subscription
   }
 
   type Mutation {
@@ -164,7 +177,7 @@ module.exports = gql`
     clearCart: String
     deletefromCart(productID: ID!): String
     changeItemsinCart(productID:ID!, quantity: Int!): String
-   
+    subcriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
     
   }
 `;

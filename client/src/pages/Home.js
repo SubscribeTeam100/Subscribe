@@ -12,7 +12,7 @@ function Home(){
     
     return (
        <Container>
-            <Grid  container columns = {(width < 700) ? 1 : 5}>
+            <Grid  container columns = {(width < 700) ? 1 : 5} >
             <h1>The current width is : {width}</h1>
             <Grid.Row>
       

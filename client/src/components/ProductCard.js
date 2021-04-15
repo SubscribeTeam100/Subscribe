@@ -7,15 +7,14 @@ function ProductCard({product:{id, name,isVisible,overallRating,sellerID, descri
     overallRating = 'No ratings' 
     
    }
-    
    return(<div className = 'product-card'>
     
      <Card href = {`/p/${id}`}>
     <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' wrapped ui={false} />
     <Card.Content>
-      <Card.Header>{name}</Card.Header>
+      <Card.Header  style = {{ whiteSpace:"nowrap", overflow: "hidden"}}>{name}</Card.Header>
       
-      <Card.Description>
+      <Card.Description style = {{ whiteSpace:"nowrap", overflow: "hidden"}}>
         {description}
       </Card.Description>
     </Card.Content>

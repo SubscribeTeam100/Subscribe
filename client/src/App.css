@@ -54,17 +54,24 @@ overflow: hidden;
 }
 
 
-.ui.card>.content>.header+.description, .ui.card>.content>.header {
- max-height: 1.45vw;
- overflow: hidden;
- font: 1vw;
- margin-top: 0.3vw;
- white-space:nowrap;
-
-}
 
 .currentImage{
   width: '20vw';
    height : '20vw';
 
+}
+
+nav{
+ background : #5829bb ;
+height : 10vh
+}
+.nav-links{
+  display: flex;
+  list-style : none
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  
 }
