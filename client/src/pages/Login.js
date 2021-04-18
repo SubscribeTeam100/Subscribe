@@ -106,13 +106,13 @@ function LoginForm(props) {
 
   let [addtoCartcallback,{loading: loadingaddtocart}] = useMutation(ADDTOCART,{
     update(_,result){
-        //TODO: remove this alert
         
-       console.log('added')
+      
     },
     onError(err){
       
        alert('error')
+       
     }
    
 
@@ -163,7 +163,11 @@ const implementRedirectfromProduct = () => {
     LoginUser();
   }
   
-  
+  function handlekeypress(e){
+    if(e.charCode == 13){
+      
+    }
+  }
   
 
   return (
@@ -193,7 +197,7 @@ const implementRedirectfromProduct = () => {
           <Marginer direction="vertical" margin={10} />
           <MutedLink href="#">Forget your password?</MutedLink>
           <Marginer direction="vertical" margin="1.6em" />
-          <SubmitButton type="submit">Signin</SubmitButton>
+          <SubmitButton type="submit" onKeyPress = {handlekeypress}>Signin</SubmitButton>
           <Marginer direction="vertical" margin="1em" />
           <MutedLink href="#" onClick={switchToSignup}>
             Don't have an account?{" "}

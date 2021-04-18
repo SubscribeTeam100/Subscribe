@@ -24,6 +24,14 @@ function generateToken(user){
 }
 module.exports = {
   Query: {
+    async getSeller(_,{sellerID}, context){
+      let seller = await User.findById(sellerID);
+      if(seller){
+        if(seller.isSeller){
+          return seller;
+        }else return seller;  //TODO: do something if the user isn't seller
+      }else throw new UserInputError("User unavailable", {errors :{general:"user not  found"}})
+    },
     async getCart(_, {}, context) {
       let user = authHeader(context);
       if (user) {

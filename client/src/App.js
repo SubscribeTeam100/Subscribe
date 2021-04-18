@@ -16,6 +16,8 @@ import Cart from './pages/Cart'
 import Dashboard from './pages/Dashboard'
 import ProfilePage from './pages/profile'
 import ManageSubscription from './pages/ManageSubscription'
+import SellerDashboard from './pages/sellerDashboard'
+import SellerPage from './pages/Seller'
 function App() {
   return (
     <AuthProvider>
@@ -31,6 +33,8 @@ function App() {
       <Route exact path = '/dashboard' component = {Dashboard} />
       <Route exact path = '/dashboard/profile' component = {ProfilePage} />
       <Route exact path = '/subscriptions/:subscriptionID' component = {ManageSubscription} />
+      <Route exact path = '/seller/:sellerID' component = {SellerPage} />
+      
     </Router>
     </AuthProvider>
   );

@@ -69,6 +69,7 @@ module.exports = gql`
     tracking: String,
     trackingCarrier:String,
     settlementID:String
+    scheduledfor: String
 
   }
   type Address {
@@ -145,6 +146,7 @@ module.exports = gql`
 
   type Query {
     getProducts: [Product]
+    getSeller(sellerID: ID!): User
     getSellerSubscriptions: [Subscription]
     getUserSubscriptions: [Subscription]
     getUserReviews: [Review]
@@ -167,7 +169,9 @@ module.exports = gql`
     deleteProduct(productId: ID!): String!
     addSubscription(subscriptionInput: SubscriptionInput!): Subscription!
     deleteSubscription(subscriptionId: ID!): String!
-    pauseSubscription(subscriptionId: ID!): Subscription!
+    pauseSubscription(subscriptionId: ID!): Subscription
+    resumeSubscription(subscriptionId:ID!): Subscription
+    # //TODO: pause subscription for a timeframe. Implement it with subscriptionshipped and subscription thingys.
     upgradeToSeller: User!
     addAddress(addressInput: AddressInput!): User!
     # addSettlement(settlementInput:SettlementInput!, addressInput: AddressInput!): User!
@@ -177,7 +181,7 @@ module.exports = gql`
     clearCart: String
     deletefromCart(productID: ID!): String
     changeItemsinCart(productID:ID!, quantity: Int!): String
-    subcriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
+    subscriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
     
   }
 `;

@@ -57,7 +57,7 @@ module.exports ={
     },
     Mutation:{
         
-        async addSubscription(_,{subscriptionInput:{productID,addressID, sellerID, settlementID, frequency, nextdeliveryscheduledfor}}, context){
+        async addSubscription(_,{subscriptionInput:{productID,addressID, sellerID, settlementID, frequency, nextDeliveryscheduledfor}}, context){
             //TODO: add subscription input validator,
             //TODO: bring in addressinput, settlement input, settlement
             //TODO:
@@ -66,7 +66,9 @@ module.exports ={
             }
             let user = authHeader(context);
             if(user){
+               
                 const newSubscription = new Subscription({
+                   
                     productID,
                     sellerID,
                     frequency,
@@ -74,7 +76,7 @@ module.exports ={
                     userID: user.id,
                     isActive: true,
                     nextDelivery: {
-                        scheduledfor:nextdeliveryscheduledfor,
+                        scheduledfor: nextDeliveryscheduledfor,
                         settlementID,
                         shipped: false,
                         addressID:addressID,
@@ -104,16 +106,33 @@ module.exports ={
             
         },
         async deleteSubscription(_, {subscriptionId}, context){
-            const user = authHeader(context);
+            let user = authHeader(context);
             if(user){
                 const subscription = await Subscription.findById(subscriptionId);
                 if(subscription){
-                    
                     if(subscription.userID === user.id){
                         await subscription.delete();
-                        return "Subscription deleted Successfully"
+                        
                     }else throw new Error("Subscription from another user cannot be deleted")
-                
+                    let productID = subscription.productID
+                    let product = await Product.findById(productID)
+                    if(product){
+                       
+                        product.subscriptions = product.subscriptions.filter(subscription => subscription !== subscriptionId)
+                        await product.save()
+                        
+                        
+                    }
+                    let userID = subscription.userID
+                    user = await User.findById(userID)
+                    if(user){
+                        
+                        user.subscriptions = user.subscriptions.filter(subscription => subscription !== subscriptionId)
+                        await user.save()
+                        
+                    }
+                    
+                    return "Subscription deleted Successfully"
                 } throw new Error("Subscription not found")
            }   
         },
@@ -124,13 +143,29 @@ module.exports ={
                 let sub = await Subscription.findById(subscriptionId);
                 if(sub){
                     if(sub.isActive){
-                        sub = await Subscription.findOneAndUpdate({id: subscriptionId}, {isActive: false},{new: true});
+                        sub.isActive = false;
+                        await sub.save()
                         return sub
                     }
-                }
-            }
+                }else throw new Error("Cannot find subscription")
+            }else throw new Error("user not logged in")
+        },
+        async resumeSubscription(_, {subscriptionId}, context){
+            const user = authHeader(context);
+            if(user){
+                let sub = await Subscription.findById(subscriptionId);
+                if(sub){
+                    if(!sub.isActive){
+                        sub.isActive = true;
+                        await sub.save()
+                        return sub
+                    }
+                }else throw new Error("Cannot find subscription")
+            }else throw new Error("user not logged in")
         },
 
+
+        //TODO:: add seller dashboard backend 
         async subscriptionShipped(_,{subscriptionID, tracking, trackingCarrier}, context){
             const user = authHeader(context);
             if(!user){
@@ -155,13 +190,13 @@ module.exports ={
             }
 
         },
-        async subscriptionDelivered(_,{subscriptionID}, context){
-                let subscription = await Subscription.findById(subscriptionID)
-                if(subscription){
-                    if(subscription.isActive){
+        // async subscriptionDelivered(_,{subscriptionID}, context){
+        //         let subscription = await Subscription.findById(subscriptionID)
+        //         if(subscription){
+        //             if(subscription.isActive){
                     
-                    }
-                }
-        }
+        //             }
+        //         }
+        // }
     }
 }

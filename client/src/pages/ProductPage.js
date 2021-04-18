@@ -18,8 +18,7 @@ function ProductPage(props) {
   const {user} = useContext(AuthContext);
   const[addtoCart,{loadingaddtocart}] = useMutation(ADDTOCART,{
     update(_,result){
-        //TODO: remove this alert
-      
+      // props.history.push('../cart')
     },
     onError(err){
        
@@ -42,6 +41,7 @@ const handleClick=(e)=>{
   if (loading) {
     return <Loader />;
   } else {
+    
     const product = data.getProduct;
     if(!product){
       return(<div>Cannot find Product. Error 404. <a href = '../../'>GO HOME</a></div>)

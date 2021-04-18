@@ -17,7 +17,7 @@ function Dashboard() {
 
   return (
     <div>
-        //TODO: add icons and short descriptions
+        //TODO: add icons and short description lists
         <nav>
           <div className = 'hamburger'>
             <div ClassName = 'hamburger-line'></div>

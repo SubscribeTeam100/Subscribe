@@ -58,7 +58,7 @@ function NavBar() {
             active={activeItem === 'Login'}
             onClick={user? logout: handleItemClick}
             as= {Link}
-            to= { '/login' }  //TODO: fix this
+            to= { '/login' }
             style = {activeItem === 'Login'?{ color: 'gray'} : {color:'white'}} 
           >
           {user?"Logout": "Login/SignUp"}

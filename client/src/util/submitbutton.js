@@ -1,10 +1,10 @@
 import {useState} from 'react'
 export const useForm = (callbackfunction, initialState = {})=>{
-    const [values, setValues] = useState(initialState)
-const onChange = (event) => {
+  const [values, setValues] = useState(initialState)
+  const onChange = (event) => {
   
-  setValues({...values,[event.target.name]:event.target.value})
-}
+    setValues({...values,[event.target.name]:event.target.value})
+  }
 
 
   
@@ -12,7 +12,7 @@ const onChange = (event) => {
 const onSubmit = (event)=>{
   event.preventDefault();
   
- callbackfunction();
+  callbackfunction();
   
 }  
 return{

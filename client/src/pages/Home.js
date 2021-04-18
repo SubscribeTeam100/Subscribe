@@ -6,7 +6,9 @@ import { Container, Grid,  Loader } from 'semantic-ui-react'
 import ProductCard from '../components/ProductCard'
 function Home(){
     const {loading, data:{getProducts: products} = {}} = useQuery(get_products)
-    
+    if(!loading){
+      console.log(products)
+    }
     let width = window.innerWidth
     console.log('screewidth :', width)
     
@@ -15,7 +17,7 @@ function Home(){
             <Grid  container columns = {(width < 700) ? 1 : 5} >
             <h1>The current width is : {width}</h1>
             <Grid.Row>
-      
+              
             </Grid.Row>
             <Grid.Row>
            {loading?(<h1><Loader/></h1>) :(
