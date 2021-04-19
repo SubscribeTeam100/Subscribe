@@ -10,6 +10,7 @@ const Address = require('../../models/Address')
 const Review = require('../../models/Review')
 const {addressInputValidator} = require('../validator/address-validator')
 const {GraphQLList} = require('graphql')
+const Subscription = require('../../models/Subscription')
 
 // const mongoose = require('mongoose')
 
@@ -324,6 +325,23 @@ module.exports = {
 
     },
     
+    async deleteAddress(_,{addressId}, context){
+      let user = authHeader(context);
+      if(user){
+        user = await User.findById(user.id)
+        let subscription = await Subscription.findOne({addressID:addressId});
+        if(subscription){
+          throw new Error("There is a subscription that has this address. Please change your receiving address in the subscription before deleting this address",{errors:{general:"There is a subscription that has this address. Please change your receiving address in the subscription before deleting this address"}})
+        }else{
+         let address = await Address.findById(addressId)
+          user.addressID = user.addressID.filter(addressID => addressID!==addressId);
+          await user.save();
+          await address.delete();
+        }
+        return "Successfully deleted address"
+
+      }
+    }
     
     // async addSettlement(_, {settlementInput:{ number, CVV, expMonth, expYear}, addressInput:{name, Address1, Address2, city, state, country, zip, phone, email}}, context){
     //     number = await bcrypt.hash(number, 12)

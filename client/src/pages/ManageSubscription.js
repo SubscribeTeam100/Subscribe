@@ -59,6 +59,11 @@ export default function ManageSuscription(props) {
       }
     }
   )
+ 
+   const {data, loading:getShippingLoading} = useQuery(getShippingCallback)
+ 
+  
+  
   if (user == null) {
     return (
       <div>
@@ -66,13 +71,15 @@ export default function ManageSuscription(props) {
       </div>
     );
   }
-  if (subscription_loading) {
+  if (subscription_loading || getShippingLoading) {
     return <Loader active />;
   }
   if (!subscriptiondata) {
     return <div className="error404">ERROR 404 This Page is unavailable</div>;
   }
+  function getShippingCallback(){
 
+  }
   function SubscriptionProductCard(productID) {
     const [pauseInput, setPauseInput] = React.useState()
     const {
@@ -256,7 +263,7 @@ export default function ManageSuscription(props) {
       </div>
     );
   }
-
+  
   return (
     <div>
       <Container>
@@ -280,6 +287,9 @@ export default function ManageSuscription(props) {
             <p>
               <b>Created at</b> :{" "}
               {`${moment(subscriptiondata.getSubscription.createdAt)}`}
+            </p>
+            <p>
+              <b>Shipping Address: </b> : {console.log(data)}
             </p>
             <p>
               <b>Seller </b> :{" "}
@@ -370,5 +380,19 @@ const RESUME_SUBSCRIPTION = gql`
     }
       
     
+  }
+`
+
+const GET_SHIPPING = gql`
+  query getAddress($addressId: ID!, $subscriptionId: ID!){
+    getAddress(addressId: $addressId, subscriptionId: $subscriptionId){
+     name
+     Address1
+      Address2
+      city
+      state
+       country
+      zip
+    }
   }
 `

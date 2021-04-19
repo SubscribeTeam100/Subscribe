@@ -5,9 +5,10 @@ import gql from 'graphql-tag'
 import {useMutation} from '@apollo/react-hooks'
 import {useForm} from '../../util/submitbutton'
 import {Form, Button,  Select} from 'semantic-ui-react';
+import { PromiseProvider } from "mongoose";
 
 
-const AddAddressForm = ()=> {
+const AddAddressForm = (props)=> {
     const [errors, setErrors] = useState({});
     const stateAbbreviations = [
         { text: 'Alabama', value: 'AL' },
@@ -85,6 +86,7 @@ const AddAddressForm = ()=> {
     const [addAddress, {loading}] = useMutation(ADD_ADDRESS,{
         update(_,results){
             alert('Address Added')
+            props.history.push('../dashboard')
         },
         onError(err){
              

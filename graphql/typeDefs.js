@@ -151,7 +151,7 @@ module.exports = gql`
     getUserSubscriptions: [Subscription]
     getUserReviews: [Review]
     getSellerProducts: [Product]
-    getAddress(addressId: ID!, subscriptionId: ID!): [Product]
+    getAddress(addressId: ID!, subscriptionId: ID!): Address
     getReview(reviewId: ID): Review
     getProductReviews(productId: ID): [Review]
     getProduct(productId: ID): Product
@@ -174,6 +174,7 @@ module.exports = gql`
     # //TODO: pause subscription for a timeframe. Implement it with subscriptionshipped and subscription thingys.
     upgradeToSeller: User!
     addAddress(addressInput: AddressInput!): User!
+    deleteAddress(addressId: ID!): String
     # addSettlement(settlementInput:SettlementInput!, addressInput: AddressInput!): User!
     addReview(reviewInput: ReviewInput!): Product!
     deleteReview(reviewId: ID!, productId: ID!): Product!

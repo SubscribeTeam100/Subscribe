@@ -4,12 +4,23 @@ import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Loader, Card,Segment, Grid, Input, Icon, Button } from "semantic-ui-react";
 import moment from 'moment';
-export default function ProfilePage(){
+
+export default function ProfilePage(props){
     const {user} = useContext(AuthContext);
  
     const {data: userSubdata, loading: getUserSubscriptions_loading} = useQuery(GET_SUBSCRIPTION);
     const {data: userAddressesdata, loading: getUserAddresses_loading} = useQuery(GET_ADDRESSES);
-    
+    const [deleteAddress, {loading:deleteAddress_loading}] = useMutation(DELETE_ADDRESS,{
+        update(_,result){
+            window.location.reload(true);
+
+        },
+        onError(err){
+           
+           alert(err.graphQLErrors[0].message) 
+            
+        }
+    })
     if(!user){
         return (<h1>Please <a href = '../login'>Login</a></h1>)
     }
@@ -17,6 +28,8 @@ export default function ProfilePage(){
         return(<Loader active />)
     }
     
+
+
     function SubscriptionCard(subscription){
        
     const {data: productdata, loading: getProduct_loading} = useQuery(FETCH_PRODUCT, {variables:{productId:subscription.subscription.productID}})
@@ -26,7 +39,7 @@ export default function ProfilePage(){
     }else{
         return(
         <div className="Subscription-card">
-            { console.log(productdata)}
+            
            <Card
            color = {subscription.subscription.isActive? 'green' : 'red'}
            
@@ -34,7 +47,7 @@ export default function ProfilePage(){
            meta={productdata.getProduct.price}
            description = {`purchased ${moment(productdata.getProduct.createdAt).fromNow(true)} ago`}
            
-           extra = {<Button color = 'gray' href = {`/subscriptions/${subscription.subscription.id}`}>manageSubscription</Button>}/>
+           extra = {<Button color = 'gray' href = {`/subscriptions/${subscription.subscription.id}`}>Manage Subscription</Button>}/>
            
             
         </div>
@@ -66,7 +79,7 @@ export default function ProfilePage(){
         </div>
         <hr/><hr/>
             <div className = 'address-container'>
-                <h2> User Addresses: </h2>
+                <span><h2> User Addresses: </h2> <button onClick = {()=>{props.history.push('./addAddress')}}><Icon name = 'plus'></Icon> Add Address</button></span>
                 {userAddressesdata.getUserAddresses.length > 0? userAddressesdata.getUserAddresses.map(address =>(
                     <div>
                         <Card>
@@ -79,13 +92,13 @@ export default function ProfilePage(){
                         <p>{address.email}</p>
                         <p>{address.phone}</p>
 
-                        <Button color = 'gray'> Manage Address</Button>
+                        <Button color = 'red'  onClick = {()=>deleteAddress({variables:{addressId: address.id}})}> Delete Address </Button>
                         </Card>
                         <hr/>
                     </div>
                 )) : (
                     <div>
-                        Where should we deliver? <a href = '#'><u>Add Address</u></a>
+                        Where should we deliver? <a href = './addAddress'><u>Add Address</u></a>
                     </div>
                 )}
                 
@@ -153,3 +166,9 @@ const FETCH_PRODUCT = gql`
     }
   }
 `;
+const DELETE_ADDRESS = gql`
+    mutation deleteAddress($addressId: ID!){
+        deleteAddress(addressId: $addressId)
+    }
+`
+
