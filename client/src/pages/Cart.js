@@ -7,18 +7,13 @@ import { Loader, Segment, Grid, Input, Icon, Button } from "semantic-ui-react";
 export default function Cart(props) {
   let products = [];
   let cartItems = [];
-  let total = 0;
+ 
   const [error, setError] = useState({});
   const { user } = useContext(AuthContext);
   if (!user) {
     props.history.push("/login");
   }
-  function updateTotal(value){
-    console.log(value)
-    total = total+ value
-    console.log("newtotal", total)
-    return total
-  }
+  
   
   const { loading: LOADINGPRODUCTINFO, data } = useQuery(GET_CART_PRODUCT_INFO);
   const { loading, data: cartdata } = useQuery(GET_CART);
@@ -27,7 +22,7 @@ export default function Cart(props) {
     {
       update(_, result) {
         
-        this.inputRef.current.focus()
+      
       },
       onError(err) {
         console.log("error:", err);
@@ -65,7 +60,7 @@ export default function Cart(props) {
     let a = (getQuantity(product.id))
     const [quantity, setQuantitys] = useState(a);
 
-    
+   
 
     function changeQuantity(event) {
       event.preventDefault();
@@ -109,7 +104,7 @@ export default function Cart(props) {
       localStorage.setItem("cart", JSON.stringify(localcart))
       
     }
-
+   
     return (
       <div key={product.id} >
         <div className="product">
@@ -140,7 +135,7 @@ export default function Cart(props) {
               </Grid.Column>
               <Grid.Column>
                 
-                subtotal: {product.price * getQuantity(product.id)}
+                subtotal: <div className = {product.id}>{(product.price * getQuantity(product.id)).toFixed(2)}</div>
                
                
               </Grid.Column>
@@ -152,15 +147,39 @@ export default function Cart(props) {
       </div>
     );
   }
+  function GetTotal(products){
+    products = products.products
+    let total = 0;
+  
+    
+    if(LOADINGPRODUCTINFO){
+      return <Loader active/>
+    }
+    let LocalCart = JSON.parse(localStorage.getItem('cart'))
+
+    const getQuantity = (productid) => {
+      let asd = LocalCart.find((item) => item.productID == productid);
+      return asd.quantity;
+    };
+    for(let i in products){
+    
+      let subtotal = products[i].price * getQuantity(products[i].id)
+     total  = (total+subtotal)
+      
+    }
+   
+
+    return (total.toFixed(2));
+  }
 
   function handleCheckout() {
-    //TODO: handle Checkout
+    //TODO: handle Checkout   
     
     console.log("checkout");
   }
+ 
   
   
-  let cartItem = null;
   return (
     <div>
       <div id="cart-wrap">
@@ -172,7 +191,7 @@ export default function Cart(props) {
         ))}
         <br></br>
         
-        <h3>TOTAL : </h3>     //TODO: update total after the products are mounted. 
+        <h3>TOTAL : <GetTotal products = {products}/></h3>    
         <Button primary onClick={handleCheckout}>
           Checkout
         </Button>
@@ -209,4 +228,4 @@ const Remove_Item = gql`
   mutation deletefromCart($productID:ID!){
     deletefromCart(productID: $productID)
   }
-`
+`;

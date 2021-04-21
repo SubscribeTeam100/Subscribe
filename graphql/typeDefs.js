@@ -182,6 +182,7 @@ module.exports = gql`
     clearCart: String
     deletefromCart(productID: ID!): String
     changeItemsinCart(productID:ID!, quantity: Int!): String
+    
     subscriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
     
   }

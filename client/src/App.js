@@ -18,6 +18,7 @@ import ProfilePage from './pages/profile'
 import ManageSubscription from './pages/ManageSubscription'
 import SellerDashboard from './pages/sellerDashboard'
 import SellerPage from './pages/Seller'
+import Subscriptions from './pages/Subscriptions'
 import AddAddressForm from './components/FormComponents/addAddressForm'
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
       <Route exact path = '/subscriptions/:subscriptionID' component = {ManageSubscription} />
       <Route exact path = '/seller/:sellerID' component = {SellerPage} />
       <Route exact path = '/dashboard/addAddress' component = {AddAddressForm} />
+      <Route exact path = '/dashboard/subscriptions' component = {Subscriptions} />
+      <Route exact path = '/dashboard/seller' component = {SellerDashboard} />
     </Router>
     </AuthProvider>
   );

@@ -14,7 +14,7 @@ import {
   Input
 } from "semantic-ui-react";
 import moment from "moment";
-
+//TODO: add edit subscription address/settlement options
 export default function ManageSuscription(props) {
   let { user } = useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
@@ -60,7 +60,7 @@ export default function ManageSuscription(props) {
     }
   )
  
-   const {data, loading:getShippingLoading} = useQuery(getShippingCallback)
+   
  
   
   
@@ -71,25 +71,39 @@ export default function ManageSuscription(props) {
       </div>
     );
   }
-  if (subscription_loading || getShippingLoading) {
+  if (subscription_loading) {
     return <Loader active />;
   }
   if (!subscriptiondata) {
     return <div className="error404">ERROR 404 This Page is unavailable</div>;
   }
-  function getShippingCallback(){
-
+  function AddressComponent (addressID){
+     addressID =addressID.addressID
+    const {data, loading:getShippingLoading} = useQuery(GET_SHIPPING, {variables:{subscriptionId:props.match.params.subscriptionID, addressId: addressID }})
+   if(getShippingLoading){
+     return <Loader active/>
+   }
+    return(<div>
+     { data.getAddress.name}
+     <br/>{data.getAddress.Address1}
+     <br/>{data.getAddress.Address2}
+     <br/>{data.getAddress.city}
+     <br/>{data.getAddress.phone}
+     </div>
+    )
   }
   function SubscriptionProductCard(productID) {
+    productID =  productID.productID
+    
     const [pauseInput, setPauseInput] = React.useState()
     const {
       data: productdata,
       loading: product_loading,
     } = useQuery(FETCH_PRODUCT, {
-      variables: { productId: productID.productID },
+      variables: { productId: productID },
     });
-
-    if (product_loading) {
+   
+    if (product_loading ) {
       return <Loader active />;
     }
     
@@ -256,7 +270,7 @@ export default function ManageSuscription(props) {
                 
               </Modal>
 
-              //TODO: add pause subscription functionality
+              
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -289,7 +303,7 @@ export default function ManageSuscription(props) {
               {`${moment(subscriptiondata.getSubscription.createdAt)}`}
             </p>
             <p>
-              <b>Shipping Address: </b> : {console.log(data)}
+              <b>Shipping Address: </b> <AddressComponent addressID={subscriptiondata.getSubscription.addressID} />
             </p>
             <p>
               <b>Seller </b> :{" "}

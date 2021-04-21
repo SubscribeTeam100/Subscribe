@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import {Grid, Segment, Container, Loader } from 'semantic-ui-react'
+import {Grid, Segment, Container, Loader, Icon } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import { AuthContext } from "../context/auth"
 function Dashboard() {
@@ -18,29 +18,15 @@ function Dashboard() {
   return (
     <div>
         //TODO: add icons and short description lists
-        <nav>
-          <div className = 'hamburger'>
-            <div ClassName = 'hamburger-line'></div>
-            <div ClassName = 'hamburger-line'></div>
-            <div ClassName = 'hamburger-line'></div>
-          </div>
-
-          <ul className = 'nav-links'>
-            <li><a href = '#'>About</a></li>
-            <li><a href = '#'>Contact</a></li>
-            <li><a href = '#'>Projects</a></li>
-
-          </ul>
-        </nav>
-
-
+        
 
 
     <Container textAlign = 'center' >
     <Grid divided >
     <Grid.Row stretched>
       <Grid.Column stretched>
-        <Segment padded = 'very' as={Link} to = {'dashboard/profile'}><h3>Profile</h3>
+        <Segment padded = 'very' as={Link} to = {'dashboard/profile'}><h3> Profile  </h3>
+        
             
         </Segment>
       </Grid.Column>

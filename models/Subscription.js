@@ -24,6 +24,9 @@ const subscriptionSchema = new Schema({
         tracking:String,
         trackingCarrier: String,
         settlementID:String
-    }
+    },
+    payment:[{
+        
+    }]
 })
 module.exports = model ('Subscription', subscriptionSchema)

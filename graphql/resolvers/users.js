@@ -71,7 +71,7 @@ module.exports = {
       const user = authHeader(context);
       const sub = await Subscription.findById(subscriptionId);
 
-      if (user.id === sub.sellerID) {
+      if (user.id === sub.sellerID|| user.id === sub.userID) {
         const sub = await Subscription.findById(subscriptionId);
         const address = await Address.findById(addressId);
         if (sub.userID === address.userID) {
