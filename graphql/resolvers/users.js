@@ -12,6 +12,7 @@ const {addressInputValidator} = require('../validator/address-validator')
 const {GraphQLList} = require('graphql')
 const Subscription = require('../../models/Subscription')
 
+
 // const mongoose = require('mongoose')
 
 function generateToken(user){
@@ -26,13 +27,18 @@ function generateToken(user){
 module.exports = {
   Query: {
     async getSeller(_,{sellerID}, context){
-      let seller = await User.findById(sellerID);
-      if(seller){
-        if(seller.isSeller){
-          return seller;
-        }else return seller;  //TODO: do something if the user isn't seller
-      }else throw new UserInputError("User unavailable", {errors :{general:"user not  found"}})
-    },
+      let user = authHeader(context)
+      if(sellerID){
+        let seller = await User.findById(sellerID)
+        
+        if(seller && seller.isSeller) return seller
+      }else if(user && !sellerID){
+        if(user.isSeller){
+          seller = await User.findById(user.id)
+          return seller
+        }
+      }else throw new Error('User Unavailable', {errors :{general:"User Unavailable"}})
+  },
     async getCart(_, {}, context) {
       let user = authHeader(context);
       if (user) {

@@ -1,5 +1,5 @@
 const gql = require("graphql-tag");
-const {graphql, GraphQLList} = require("graphql")
+const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
 module.exports = gql`
   input RegisterInput {
     username: String!
@@ -16,7 +16,7 @@ module.exports = gql`
     tags: [String]
     ImageLink: [String]
   }
-
+  
   input ReviewInput {
     title: String
     rating: Int!
@@ -46,13 +46,103 @@ module.exports = gql`
     addressID: String!
     frequency: String!
     sellerID: String!
-    settlement: SettlementInput
-    nextDeliveryscheduledfor: String
+    quantity: Int!
+   
   }
   input CartItem{
     productID: ID!
     quantity:ID!
   }
+
+
+
+
+# paypal_respnse type defs starts
+  type shipping_address{
+   
+    line1: String
+    line2: String
+    city: String
+    state: String
+    postal_code: String
+    country_code: String
+  }
+  type payerinfo{
+    email: String
+    first_name: String
+    last_name: String
+    shipping_address: shipping_address
+
+  }
+  type payer{
+    payment_method: String
+    status: String
+    payerinfo: payerinfo
+
+
+  }
+  type amount{
+    currency: String
+    value: String
+
+  }
+  type charge_models{
+    type: String
+    amount: amount
+
+  }
+  type payment_definitions{
+    type: String
+    frequency: String
+    amount: amount
+    cycles: String
+    charge_models:[charge_models]
+    
+  }
+  type merchant_preferences{
+    setup_fee:amount
+    max_fail_attempts: String
+    auto_bill_amount: String
+
+  }
+  type plan{
+    payment_definitions: [payment_definitions]
+    merchant_preferences: merchant_preferences
+    currency_code: String
+
+  }
+  type links{
+    href: String
+    rel: String
+    mthod: String
+  }
+  type agreement_details{
+    outstanding_balance: amount
+    cycles_remaining: String
+    cycles_completed: String
+    next_billing_date: String
+    last_payment_date: String
+    last_payment_amount: amount
+    failed_payment_count:String
+
+
+  }
+  type paypal_response{
+    id: String
+    state: String
+    description:String
+    start_date: String
+    payer: payer
+    shipping_address: shipping_address
+    plan: plan
+    links: [links]
+    agreement_details: agreement_details
+    httpStatusCode: Int
+  }
+
+# paypal_response type defs end here
+
+
 
   type UserReviewsInfo {
     reviewID: ID!
@@ -85,6 +175,8 @@ module.exports = gql`
     phone: String!
     email: String!
   }
+
+
   type Subscription {
     id: ID!
     frequency: String!
@@ -95,8 +187,9 @@ module.exports = gql`
     userID: String!
     createdAt: String!
     isActive: Boolean!
-    delivered:[DeliveryInfo]
-    nextDelivery: DeliveryInfo
+    paypal_response: [paypal_response]
+    paypal_payment_url: String
+
   }
 
   type Review {
@@ -113,7 +206,30 @@ module.exports = gql`
     productID: String
     quantity: Int
   }
+  type payment_history{
+        payment_date: String,
+        payment_amount: String,
+        payment_process: String,
 
+  }
+  type subscription_record{
+    month: String,
+    subscribers: Int
+    active: Int,
+    paused: Int
+    cancelled: Int
+
+  }
+
+  type seller{
+    subscriptions: [String],
+    payment_history:[payment_history],
+    products: [String],
+    rating: [String],
+    subscription_record:[subscription_record]
+    payment_method:[String]
+
+  }
   type User {
     id: ID!
     username: String!
@@ -126,6 +242,7 @@ module.exports = gql`
     reviews: [UserReviewsInfo]
     subscriptions: [String]
     Cart: [CartItemsInfo]
+    seller: seller
   }
 
   type Product {
@@ -146,8 +263,9 @@ module.exports = gql`
 
   type Query {
     getProducts: [Product]
-    getSeller(sellerID: ID!): User
-    getSellerSubscriptions: [Subscription]
+    getSeller(sellerID: ID): User
+    getSellerActiveSubscriptions: [Subscription]
+    getSellerActiveSubscriptionsProducts: [Product]
     getUserSubscriptions: [Subscription]
     getUserReviews: [Review]
     getSellerProducts: [Product]
@@ -167,10 +285,11 @@ module.exports = gql`
     login(email: String!, password: String!): User!
     addProduct(productInput: ProductInput!): Product!
     deleteProduct(productId: ID!): String!
-    addSubscription(subscriptionInput: SubscriptionInput!): Subscription!
+    addSubscription(subscriptionInput: SubscriptionInput!): String
+    activateSubscription(subscriptionID: ID!, paymentToken: String!): String
     deleteSubscription(subscriptionId: ID!): String!
-    pauseSubscription(subscriptionId: ID!): Subscription
-    resumeSubscription(subscriptionId:ID!): Subscription
+    pauseSubscription(subscriptionId: ID!): String
+    resumeSubscription(subscriptionId:ID!): String
     # //TODO: pause subscription for a timeframe. Implement it with subscriptionshipped and subscription thingys.
     upgradeToSeller: User!
     addAddress(addressInput: AddressInput!): User!
@@ -182,7 +301,7 @@ module.exports = gql`
     clearCart: String
     deletefromCart(productID: ID!): String
     changeItemsinCart(productID:ID!, quantity: Int!): String
-    
+   
     subscriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
     
   }

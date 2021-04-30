@@ -9,24 +9,13 @@ const subscriptionSchema = new Schema({
     sellerID: String,
     productID: String,
     isActive: Boolean,
-    delivered: [{
-        scheduledfor: String,
-        shipped: Boolean,
-        addressID:String,
-        tracking: String,
-        trackingCarrier: String,
-        settlementID:String
+    tracking:[{
+        trackingNumber: String,
+        carrier: String,
+        shippedOn: String,
     }],
-    nextDelivery:{
-        scheduledfor: String,
-        shipped: Boolean,
-        addressID: String,
-        tracking:String,
-        trackingCarrier: String,
-        settlementID:String
-    },
-    payment:[{
-        
-    }]
+    paypal_response:[Object],
+    paypal_payment_url: String,
+    quantity: Number
 })
 module.exports = model ('Subscription', subscriptionSchema)

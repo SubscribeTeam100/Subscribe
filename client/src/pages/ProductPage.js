@@ -18,7 +18,7 @@ function ProductPage(props) {
   const {user} = useContext(AuthContext);
   const[addtoCart,{loadingaddtocart}] = useMutation(ADDTOCART,{
     update(_,result){
-      // props.history.push('../cart')
+      props.history.push('../../cart')
     },
     onError(err){
        

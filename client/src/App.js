@@ -20,6 +20,7 @@ import SellerDashboard from './pages/sellerDashboard'
 import SellerPage from './pages/Seller'
 import Subscriptions from './pages/Subscriptions'
 import AddAddressForm from './components/FormComponents/addAddressForm'
+import Success from './pages/Sucess'
 function App() {
   return (
     <AuthProvider>
@@ -39,6 +40,7 @@ function App() {
       <Route exact path = '/dashboard/addAddress' component = {AddAddressForm} />
       <Route exact path = '/dashboard/subscriptions' component = {Subscriptions} />
       <Route exact path = '/dashboard/seller' component = {SellerDashboard} />
+      <Route exact path = '/success' component = {Success} />
     </Router>
     </AuthProvider>
   );

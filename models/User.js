@@ -13,20 +13,26 @@ const {model, Schema} = require('mongoose')
 //         createdAt: String 
 
 // })
-const settlementSchema = new Schema({
-    number: String,
-    CVV: String,
-    expMonth: String,
-    expYear: String,
-    billingAddress:{
-        name: String,
-        Address1: String,
-        Address2: String,
-        city: String,
-        state: String,
-        country: String,
-        zip: String,
-    }
+const sellerSchema = new Schema({
+    subscriptions: [String],
+    payment_history:[{
+        payment_date: String,
+        payment_amount: String,
+        payment_process: String,
+
+    }],
+    payment_method:[String],
+    
+    products: [String],
+    rating: [String],
+    subscription_record:[{
+        month: String,
+        subscribers: Number,
+        active: Number,
+        paused: Number,
+        cancelled: Number,
+    }]
+
 })
 const userSchema = new Schema({
     username: String,
@@ -36,7 +42,7 @@ const userSchema = new Schema({
     phone: String,
     isSeller: Boolean,
     addressID:[String],
-    settlement: [settlementSchema],
+   
     reviews: [{
         reviewID: String,
         productID: String,
@@ -45,6 +51,7 @@ const userSchema = new Schema({
     Cart:[{
         productID: String,
         quantity: Number
-    }]
+    }],
+    seller:[sellerSchema]
 })
 module.exports = model ('User', userSchema)

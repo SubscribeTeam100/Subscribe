@@ -14,6 +14,7 @@ import {
   Input
 } from "semantic-ui-react";
 import moment from "moment";
+import { Redirect } from "react-router";
 //TODO: add edit subscription address/settlement options
 export default function ManageSuscription(props) {
   let { user } = useContext(AuthContext);
@@ -34,7 +35,7 @@ export default function ManageSuscription(props) {
     {
       update(_, result) {
         alert("Successfully deleted Subscription.");
-        window.setTimeout(props.history.push("../dashboard/profile"), 1000);
+       props.history.push("../")
       },
       onError(err) {
         alert(err);
@@ -46,6 +47,10 @@ export default function ManageSuscription(props) {
     {
       update(_, result){
         alert("successfully paused subscription");
+        window.location.reload(true)
+      },onError(err){
+        alert ('Uh Oh! Something went wrong!')
+        alert(err)
         window.location.reload(true)
       }
     }
@@ -71,7 +76,7 @@ export default function ManageSuscription(props) {
       </div>
     );
   }
-  if (subscription_loading) {
+  if (subscription_loading||deleteLoading ||pauseLoading|| resumeLoading) {
     return <Loader active />;
   }
   if (!subscriptiondata) {
@@ -92,8 +97,11 @@ export default function ManageSuscription(props) {
      </div>
     )
   }
-  function SubscriptionProductCard(productID) {
-    productID =  productID.productID
+  function SubscriptionProductCard(props) {
+    
+    let productID = props.props.productID
+    console.log(productID)
+    let subscription = props.props
     
     const [pauseInput, setPauseInput] = React.useState()
     const {
@@ -109,12 +117,12 @@ export default function ManageSuscription(props) {
     
     function deleteSubscription(event) {
       deleteSub({
-        variables: { subscriptionId: props.match.params.subscriptionID },
+        variables: { subscriptionId: subscription.id },
       });
     }
     function pausefromremove(event) {
       if (event) {
-        console.log(event);
+       
         document.getElementById("remove-remove-modal").click();
         document.getElementById("pause-subscription").click();
       }
@@ -123,12 +131,25 @@ export default function ManageSuscription(props) {
      console.log('abc')
      //TODO: changepauseSubscription if PauseInput value 
      if(pauseInput == undefined){
-      pauseSub({variables: {subscriptionId:  props.match.params.subscriptionID}})
+      pauseSub({variables: {subscriptionId:  subscription.id}})
      }
 
     }
-    function resumeSubscription(event){
-      resumeSub({variables:{subscriptionId: props.match.params.subscriptionID}})
+    async function resumeSubscription(event){
+     
+     if(subscription.paypal_response.length>0){
+      if(subscription.paypal_response[0].state !== 'Suspended'){
+        window.location.replace(subscription.paypal_payment_url)
+      }
+      else{
+        let data = await resumeSub({variables:{subscriptionId:subscription.id}})
+      }
+     }else{
+       window.location.replace(subscription.paypal_payment_url)
+     }
+      
+      
+     
     }
     return (
       <div className="SubscriptionProduct">
@@ -293,8 +314,9 @@ export default function ManageSuscription(props) {
             Subscription Details
           </h1>
           <Card style={{ padding: 10 }}>
+           
             <SubscriptionProductCard
-              productID={subscriptiondata.getSubscription.productID}
+              props={subscriptiondata.getSubscription.productID, subscriptiondata.getSubscription}
             />
           </Card>
           <Card cenetered="false" style={{ padding: 10 }}>
@@ -316,7 +338,7 @@ export default function ManageSuscription(props) {
             {/* <p><b>Last delivered</b>: {subscriptiondata.getSubscription.delivered[0]}</p> */}
             <p>
               <b>Next delivery</b>:{" "}
-              {subscriptiondata.getSubscription.nextDelivery.scheduledfor}
+             
             </p>
             <p>
               <b></b>
@@ -340,12 +362,11 @@ const GETSUBSCTIPTION = gql`
       userID
       createdAt
       isActive
-      nextDelivery {
-        scheduledfor
-        settlementID
-        shipped
-        addressID
+      paypal_payment_url
+      paypal_response{
+        state
       }
+     
     }
   }
 `;
@@ -380,18 +401,13 @@ const DELETE_SUBSCRIPTION = gql`
 
 const PAUSE_SUBSCRIPTION = gql`
   mutation pauseSubscription($subscriptionId: ID!){
-    pauseSubscription(subscriptionId: $subscriptionId){
-      isActive
-    }
-      
+    pauseSubscription(subscriptionId: $subscriptionId)
     
   }
 `
 const RESUME_SUBSCRIPTION = gql`
   mutation resumeSubscription($subscriptionId: ID!){
-    resumeSubscription(subscriptionId: $subscriptionId){
-      isActive
-    }
+    resumeSubscription(subscriptionId: $subscriptionId)
       
     
   }
