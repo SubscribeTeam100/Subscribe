@@ -22,3 +22,4 @@ mongoose.connect(MONGODB, {useNewUrlParser: true})
 }).then(res =>{
     console.log(res.url)
 })
+

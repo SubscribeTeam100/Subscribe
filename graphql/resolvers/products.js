@@ -1,6 +1,6 @@
 const Product = require('../../models/Product')
 const Review = require('../../models/Review')
-
+const Seller = require('../../models/Seller')
 const User = require('../../models/User')
 const {productInputValidator} = require('../validator/productValidator')
 const {UserInputError} = require('apollo-server');
@@ -43,17 +43,22 @@ Query:{
     },
 Mutation:{
         async addProduct(_, {productInput: { name, description, price, isVisible, tags, ImageLink}}, context){
+            console.log('yaa samma aauncha')
             const user = authHeader(context);
+            
             const {errors,valid} = productInputValidator(name, description, price)
             if(!valid){
                 throw new ("Errors", {errors})
             }
+
             if(valid){
                 if(user){
                     const isSeller = user.isSeller;
-                    
+                    const seller = await Seller.find({userID: user.id})
+                    console.log(seller)
                     if(isSeller){
                         const { errors, valid} = productInputValidator(name, description, price)
+                        
                         if(!valid){
                             throw new UserInputError('Errors: ', {errors})
                         }
@@ -72,11 +77,14 @@ Mutation:{
                             })
                     
                         const result = await newProduct.save()
+                        console.log(seller)
+                        await seller[0].products.unshift(result._id)
+                        await seller[0].save()
                         return{
                             ...result._doc,
                             id: result._id,
                             
-                         }
+                        }
                     }
                     else throw new Error("user is not a seller")
                     
@@ -121,7 +129,7 @@ Mutation:{
                         throw new UserInputError("Review from the user already exists")
                     }
                     if(product.sellerID === user.id){
-                        throw new Error("Cannot review your own listing. Sorry!")
+                        throw new Error("Cannot review your own listing!")
                         
                     }
                     

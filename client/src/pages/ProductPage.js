@@ -47,12 +47,14 @@ const handleClick=(e)=>{
       return(<div>Cannot find Product. Error 404. <a href = '../../'>GO HOME</a></div>)
     }
     return (
-      <div className="produt-row">
+      <div className="product-row">
         <Grid>
-          <Grid.Column width={4}>
+          <Grid.Column width={4} height = {4}>
             <ImageCard ImageLink={product.ImageLink} />
           </Grid.Column>
+          <Container text className = 'product-description-container'>
           <Grid.Column width={9}>{product.description}</Grid.Column>
+          </Container>
           <Grid.Column width={3}>
             <Container>
               <Button primary onClick = {user?handleClick: redirectTohome}>Add to Cart</Button>

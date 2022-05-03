@@ -17,13 +17,15 @@ export default function Subscriptions(props){
         return(<Loader active />)
     }
     
-    function SubscriptionCard(subscription){
+    function SubscriptionCard(subscription, index){
        
         const {data: productdata, loading: getProduct_loading} = useQuery(FETCH_PRODUCT, {variables:{productId:subscription.subscription.productID}})
        
         if(getProduct_loading){
             return (<Loader active />)
         }else{
+            console.log(index.index);
+            
             return(
             <div className="Subscription-card">
                 
@@ -32,7 +34,7 @@ export default function Subscriptions(props){
                
                header={productdata.getProduct.name}
                meta={productdata.getProduct.price}
-               description = {`purchased ${moment(productdata.getProduct.createdAt).fromNow(true)} ago`}
+               description = {`purchased ${moment(userSubdata.getUserSubscriptions.createdAt ).toString().slice(0,-18)}`}
                
                extra = {<Button color = 'gray' href = {`/subscriptions/${subscription.subscription.id}`}>Manage Subscription</Button>}/>
                
@@ -46,10 +48,10 @@ export default function Subscriptions(props){
             <div>
                 <div className = 'subscription-container'>
                     <h2> USER SUBSCRIPTIONS:</h2>
-                {userSubdata.getUserSubscriptions.length > 0 ? userSubdata.getUserSubscriptions.map((subscription) =>(
+                {userSubdata.getUserSubscriptions.length > 0 ? userSubdata.getUserSubscriptions.map((subscription, index) =>(
                     <div>
     
-                        <SubscriptionCard subscription = {subscription} />
+                        <SubscriptionCard subscription = {subscription} i={index} />
                         
                         <hr></hr>
                     </div>

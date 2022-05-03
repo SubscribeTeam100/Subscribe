@@ -13,27 +13,7 @@ const {model, Schema} = require('mongoose')
 //         createdAt: String 
 
 // })
-const sellerSchema = new Schema({
-    subscriptions: [String],
-    payment_history:[{
-        payment_date: String,
-        payment_amount: String,
-        payment_process: String,
 
-    }],
-    payment_method:[String],
-    
-    products: [String],
-    rating: [String],
-    subscription_record:[{
-        month: String,
-        subscribers: Number,
-        active: Number,
-        paused: Number,
-        cancelled: Number,
-    }]
-
-})
 const userSchema = new Schema({
     username: String,
     password: String,
@@ -52,6 +32,6 @@ const userSchema = new Schema({
         productID: String,
         quantity: Number
     }],
-    seller:[sellerSchema]
+    
 })
 module.exports = model ('User', userSchema)

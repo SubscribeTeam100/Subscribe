@@ -16,13 +16,15 @@ export default function ImageCard(ImageLink){
             return(
             
                 <div className = 'CurrentImage' >
-                    <Image src= {i} wrapped key = {i}/>
+                    <div className='profile-image'>
+                    <Image src= {i} wrapped key = {i}  circular/>
+                    </div>
                     
                     
                     <div className = 'small-grid'>
                     <Image.Group size = 'tiny' >
                     {ImageLinks.map((image) =>(
-                            <Image key = {image} name = {image}  src = {image} onClick = {ImageHandler} padding = '8px'/>
+                            <Image key = {image} name = {image}  src = {image} onClick = {ImageHandler} padding = '20px'/>
                     ))}
                     </Image.Group>
                     </div> 

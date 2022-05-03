@@ -21,7 +21,11 @@ import SellerPage from './pages/Seller'
 import Subscriptions from './pages/Subscriptions'
 import AddAddressForm from './components/FormComponents/addAddressForm'
 import Success from './pages/Sucess'
+import SellerProducts from './pages/sellerProducts'
+import SellerProfile from './pages/SellerProfile'
+import GiveASuggestion_Seller from './pages/GiveASuggestion'
 function App() {
+
   return (
     <AuthProvider>
       <Router>
@@ -31,7 +35,7 @@ function App() {
       
       <Route exact path = '/p/:productID' component = {ProductPage} />
       <Route exact path = './Search' component = {Search}/>
-      <Route exact path = '/addProduct' component = {AddProductForm}/>
+      <Route exact path = '/dashboard/seller/addProduct' component = {AddProductForm}/>
       <Route exact path = '/Cart' component = {Cart} />
       <Route exact path = '/dashboard' component = {Dashboard} />
       <Route exact path = '/dashboard/profile' component = {ProfilePage} />
@@ -41,7 +45,11 @@ function App() {
       <Route exact path = '/dashboard/subscriptions' component = {Subscriptions} />
       <Route exact path = '/dashboard/seller' component = {SellerDashboard} />
       <Route exact path = '/success' component = {Success} />
-    </Router>
+      <Route exact path = '/dashboard/seller/products' component = {SellerProducts} />
+      <Route exact path = '/dashboard/seller/profile' component = {SellerProfile} />
+      <Route exact path = '/dashboard/seller/suggestion' component = {GiveASuggestion_Seller} />
+
+     </Router>
     </AuthProvider>
   );
 }

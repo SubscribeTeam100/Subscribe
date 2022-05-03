@@ -25,6 +25,7 @@ import { Container, Loader } from 'semantic-ui-react'
         onError(err){
             setActivated(false)
             console.log('error')
+            console.log(err)
         }, variables:{
             paymentToken :token,
             subscriptionID : subID
@@ -53,9 +54,13 @@ import { Container, Loader } from 'semantic-ui-react'
    }
    return(
        <div>
+           <Container text padding-top= '10px'>
            <h1>Congratulation! your order is in</h1>
            <h3>SubscriptionID : {subID} </h3>
            <h3>Paypal Billing Id : {billingID}</h3>
+           <img src = 'https://topfivemusic.files.wordpress.com/2015/01/happy-excited-dogs-compilation.jpg'/>
+           </Container>
+
        </div>
    )
 

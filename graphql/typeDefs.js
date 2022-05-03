@@ -1,5 +1,5 @@
 const gql = require("graphql-tag");
-const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
+
 module.exports = gql`
   input RegisterInput {
     username: String!
@@ -213,7 +213,7 @@ module.exports = gql`
 
   }
   type subscription_record{
-    month: String,
+    month: Int,
     subscribers: Int
     active: Int,
     paused: Int
@@ -221,14 +221,18 @@ module.exports = gql`
 
   }
 
-  type seller{
+  type Seller{
     subscriptions: [String],
     payment_history:[payment_history],
     products: [String],
     rating: [String],
     subscription_record:[subscription_record]
     payment_method:[String]
-
+    total_active: Int
+    total_subscribers: Int,
+    total_paused: Int,
+    total_cancelled: Int,
+    userID: String
   }
   type User {
     id: ID!
@@ -242,9 +246,15 @@ module.exports = gql`
     reviews: [UserReviewsInfo]
     subscriptions: [String]
     Cart: [CartItemsInfo]
-    seller: seller
+  
   }
-
+  
+type subscription_analytics{
+  total_subscribers:Int,
+  active_subscribers:Int,
+  cancelled_subscribers:Int,
+  paused_subscribers:Int
+}
   type Product {
     id: ID!
     description: String!
@@ -259,6 +269,7 @@ module.exports = gql`
     tags: [String]
     ImageLink: [String]
     price: String
+    subscription_analytics:subscription_analytics
   }
 
   type Query {
@@ -278,6 +289,7 @@ module.exports = gql`
     getUserAddresses: [Address]
     getSubscriptionProducts: [Product]
     getSubscription(subscriptionId: ID!): Subscription
+    getSellerDocument: Seller
   }
 
   type Mutation {
@@ -303,6 +315,6 @@ module.exports = gql`
     changeItemsinCart(productID:ID!, quantity: Int!): String
    
     subscriptionShipped(subscriptionID: ID, tracking: String!, trackingCarrier: String!):Subscription
-    
+    newSuggestion_Seller(title:String!, content:String!):String
   }
 `;

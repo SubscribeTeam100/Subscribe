@@ -1,11 +1,11 @@
 
 
-import React, {useState} from "react"
+import React, {useState,useContext} from "react"
 import gql from 'graphql-tag'
 import {useMutation} from '@apollo/react-hooks'
 import {useForm} from '../../util/submitbutton'
 import {Form, Button, TextArea, Radio} from 'semantic-ui-react';
-
+import {AuthContext} from "../../context/auth"
 
 const AddProductForm = ()=> {
     const [errors, setErrors] = useState({});
@@ -17,7 +17,7 @@ const AddProductForm = ()=> {
         price: '',
         
     })
-
+    const { user } = useContext(AuthContext);
     const [ImageLink, setImageLink ] = useState([])
     const [tags, settags] = useState([])
     const [isVisible, setisVisible] = useState(true)
@@ -27,9 +27,12 @@ const AddProductForm = ()=> {
             alert('success')
         },
         onError(err){
+            
             alert('error') 
             
+            throw("error is this: ", err)
             setErrors(err.graphQLErrors[0].extensions.exception.errors)
+            
         },
         variables: {
             name : values.name,
@@ -76,7 +79,13 @@ const AddProductForm = ()=> {
     function addProductCallback(){
         addProduct()
     }
-
+    if(!user.isSeller){
+        return(
+            <div>
+                You must be a seller to view this page
+            </div>
+        )
+    }
     return(
         <div className= 'form-container'>
             <Form  className = {loading? 'loading':''}>
@@ -116,7 +125,7 @@ const AddProductForm = ()=> {
             />
                     <div>
                         {ImageLink.length > 0 && (
-                    <div className="ui info message">
+                    <div className="ui info message" style={{wordBreak:"break-word"}}>
                     <ul className="list">
                         {ImageLink.map((value) => (
                         <li key={value}>{value}</li>

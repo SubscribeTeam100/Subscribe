@@ -8,13 +8,6 @@ const util = require('util');
 const { update } = require('../models/Subscription');
 
 async function Create(product, subscription, address){ 
-    if(subscription.frequency === 'BIWEEKLY'){
-        var frequency = 'WEEK'
-        var frequency_interval = 2
-    }else{
-        var frequency = subscription.frequency
-        var frequency_interval = 1
-    }
    
 
     var isoDate = new Date();
@@ -60,7 +53,7 @@ var billingPlanAttributes = {
                 }
 
             ],
-            "cycles":"0",               //TODO: change the frequency and interval using subscription details
+            "cycles":"0",               
             "frequency": subscription.frequency === 'BIWEEKLY'? 'WEEK' : subscription.frequency,
             "frequency_interval": subscription.frequency === 'BIWEEKLY'? 2 : 1,
             "name" : subscription.id,
@@ -105,11 +98,13 @@ const updatePlan = util.promisify(paypal.billingPlan.update)
 const createagreement = util.promisify(paypal.billingAgreement.create)
 try{
     let billingPlan = await CreatePlan(billingPlanAttributes)
-
+    
+    
    try{ 
     let response = await updatePlan(billingPlan.id, billingPlanUpdateAttributes)
     console.log('Billing plan create response:::', billingPlan)
     console.log("response from updatePlan", response)
+    console.log(billingAgreementAttributes)
         try{
             billingAgreementAttributes.plan.id = billingPlan.id;
             let billingAgreement = await createagreement(billingAgreementAttributes)
@@ -130,7 +125,9 @@ try{
             }
         }catch(err){
             console.log('error found in agreemtne')
-            console.log(err)
+            console.log(JSON.stringify(err))
+            console.log('message is ')
+            console.log(err.message)
         }
 
    }catch(err){

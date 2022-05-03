@@ -13,34 +13,58 @@ export default function SellerDashboard() {
   const { data: sellerData, loading: loading_sellerData } = useQuery(GET_SELLER)
   const { data: activeSubscription, loading: loading_activeSubscription } = useQuery(GET_SELLER_ACTIVE_SUBSCRIPTIONS)
   const { data: activeProducts, loading: loading_activeProducts } = useQuery(GET_SELLER_ACTIVE_PRODUCTS)
-
-  if (!loading_sellerData && !loading_activeSubscription && !loading_activeProducts) {
-    console.log(sellerData)
-    console.log(activeSubscription)
-    console.log(activeProducts.getSellerActiveSubscriptionsProducts)
+  const {data: sellerDocument, loading: loading_sellerDocument} = useQuery(GET_SELLER_DOCUMENT)
+  if (!loading_sellerData && !loading_activeSubscription && !loading_activeProducts && !loading_sellerDocument) {
+    
   }
   function OnAGlance(seller) {
     seller = seller.seller
+    if(sellerDocument.getSellerDocument.products.length === 0){
+      return(
+        <div>
+          Let's <a href= 'seller/addProduct'> add your First Product</a>
+        </div>
+      )
+    }
+    if(sellerDocument.getSellerDocument.total_subscribers === null){
+      return(
+        <div>
+          Lets get your first subscriber. <a>Share</a>
+        </div>
+      )
+    }
     return (
       <Container textAlign='center' style = {{paddingTop: '10px'}}>
         <Card fluid padded = 'very'>
           <Card.Header><h2>Hi! {seller.username} </h2></Card.Header>
           <Card.Content>Here's your recap
-
+            
+            <p><b>Total Subscribers: </b> {sellerDocument.getSellerDocument.total_subscribers}</p>
+            <p><b>Total active: </b> {sellerDocument.getSellerDocument.total_active}</p>
+            <p><b>Total increase this month: </b>{sellerDocument.getSellerDocument.subscription_record[1]!=undefined ? (((sellerDocument.getSellerDocument.subscription_record[0].subscribers-sellerDocument.getSellerDocument.subscription_record[1].subscribers)/sellerDocument.getSellerDocument.subscription_record[1].subscribers)*100):( `${sellerDocument.getSellerDocument.subscription_record[0].subscribers}`)} </p>
             //TODO::change this to make it better
-            <p>Upcoming shipments: {activeProducts.getSellerActiveSubscriptionsProducts[0].id} and {activeProducts.getSellerActiveSubscriptionsProducts.length -1} more
+            <p>Upcoming shipments: {activeProducts.getSellerActiveSubscriptionsProducts.length>0? activeProducts.getSellerActiveSubscriptionsProducts[0].id  : 'No upcoming shipments'}
             </p>
-            <p>your total active subscriptinos : {}</p>
+            
           </Card.Content>
         </Card>
       </Container>
-    )  //TODO:: add a at A glance here(monthly selling, increase from last month, etc)
+    ) 
   }
-
-  if (loading_sellerData || loading_activeSubscription || loading_activeProducts) {
+  if( user===null || !user.isSeller){
+    return(
+      <div>
+        You have to be a seller to view this page
+      </div>
+    )
+  }
+  
+  if (loading_sellerData || loading_activeSubscription || loading_activeProducts|| loading_sellerDocument) {
     return <Loader active />
   } else {
-
+    
+    
+    
     return (
       <div>
 
@@ -58,8 +82,9 @@ export default function SellerDashboard() {
               <Grid.Column >
                
                 <Segment padded='very' as={Link} to={'seller/selling'}><h3>Selling</h3></Segment>
-                <Segment padded='very' as={Link} to={'seller/subscriptions'}><h3>All Subscription</h3></Segment>
+                <Segment padded='very' as={Link} to={'seller/products'}><h3>Products</h3></Segment>
                 <Segment padded='very' as={Link} to={'seller/profile'} ><h3>Profile</h3></Segment>
+                <Segment padded='very' as={Link} to={'seller/addProduct'}><h3>Add a product</h3></Segment>
                 <Segment padded='very' as={Link} to={'seller/suggestion'}><h3>Give a suggestion :)</h3></Segment>
 
 
@@ -84,9 +109,30 @@ const GET_SELLER = gql`
       email
       username
 
+
     }
   }
 
+`
+const GET_SELLER_DOCUMENT = gql`
+  query getSellerDocument{
+    getSellerDocument{
+      total_active
+    total_subscribers
+    total_paused
+    total_cancelled
+    products
+    rating
+    subscription_record{
+        month
+        subscribers
+        active
+        paused
+        cancelled
+    }
+    userID
+    }
+  }
 `
 
 const GET_SELLER_ACTIVE_SUBSCRIPTIONS = gql`

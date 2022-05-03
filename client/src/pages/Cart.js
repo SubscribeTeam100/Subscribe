@@ -92,7 +92,7 @@ export default function Cart(props) {
       {key: 4, text: 'MONTH', value: 'MONTH'}
     ]
     const [quantity, setQuantitys] = useState(a);
-    const [activeAddress,setactiveAddress] = useState(addresses[0].id)
+    const [activeAddress,setactiveAddress] = useState(0)
     const [frequency, setFrequency] = useState('MONTH')
 
     function changeQuantity(event) {
@@ -206,13 +206,13 @@ export default function Cart(props) {
         </Grid>
         <Grid>
                 <Grid.Row>
-                 <span><h4>Deliver every: </h4>  <Dropdown text = {frequency} options = {frequncyoptions} onChange = {(event) =>{setFrequency(event.target.value)}} defaultValue = {4} direction = 'right'/></span>
+                 <span><h4>Deliver every: </h4>  <Dropdown text = {frequency==='BIWEEKLY'? '2 WEEKS' : frequency} options = {frequncyoptions} onChange = {(event) =>{if(event.target.innerText === '2 WEEKS'){setFrequency("BIWEEKLY")}else{setFrequency(event.target.innerText)} }} defaultValue = {4} direction = 'right'/></span>
                 </Grid.Row>
         </Grid>
         
         <Grid>
         <Grid.Row>
-        <Button onClick = {subscribe} primary>Subscribe with PayPal! <Icon name = 'paypal' /> <Icon name = 'paypal card'></Icon></Button>
+        <Button onClick = {subscribe} primary disabled={activeAddress===0?true: false}>Subscribe with PayPal! <Icon name = 'paypal' /> <Icon name = 'paypal card'></Icon></Button>
         </Grid.Row>
         </Grid>
         <hr/>
@@ -244,11 +244,7 @@ export default function Cart(props) {
     return (total.toFixed(2));
   }
 
-  function handleCheckout() {
-    //TODO: handle Checkout   
-    
-    console.log("checkout");
-  }
+ 
  
   
   
@@ -264,9 +260,7 @@ export default function Cart(props) {
         <br></br>
         
         <h3>TOTAL : <GetTotal products = {products}/></h3>    
-        <Button primary onClick={handleCheckout}>
-          Checkout
-        </Button>
+       
       </div>
     </div>
   );

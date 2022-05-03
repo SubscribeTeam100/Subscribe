@@ -25,7 +25,13 @@ const productSchema = new Schema({
     overallRating: Number,
     subscriptions:[String],
     tags: [String],
-    ImageLink: [String]
+    ImageLink: [String],
+    subscription_analytics:{
+        total_subscribers:Number,
+        active_subscribers:Number,
+        cancelled_subscribers:Number,
+        paused_subscribers:Number,
+    }
 })
 
 module.exports = model ('Product', productSchema)

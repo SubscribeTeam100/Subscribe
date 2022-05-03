@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import { Container, Grid,  Loader } from 'semantic-ui-react'
 import ProductCard from '../components/ProductCard'
 function Home(){
+    console.log('avc')
     const {loading, data:{getProducts: products} = {}} = useQuery(get_products)
     if(!loading){
       console.log(products)

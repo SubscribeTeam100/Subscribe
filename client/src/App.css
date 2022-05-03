@@ -80,3 +80,16 @@ height : 10vh
   max-width: 100%;
   max-height : auto;
 }
+
+.profile-image{
+  height : 300px;
+  width: 400px;
+  padding: auto;
+}
+.small-grid{
+  padding-top: 150px;
+}
+
+.product-row{
+  padding-top: 33px;
+}

@@ -11,6 +11,7 @@ const Review = require('../../models/Review')
 const {addressInputValidator} = require('../validator/address-validator')
 const {GraphQLList} = require('graphql')
 const Subscription = require('../../models/Subscription')
+const Seller = require('../../models/Seller')
 
 
 // const mongoose = require('mongoose')
@@ -26,19 +27,7 @@ function generateToken(user){
 }
 module.exports = {
   Query: {
-    async getSeller(_,{sellerID}, context){
-      let user = authHeader(context)
-      if(sellerID){
-        let seller = await User.findById(sellerID)
-        
-        if(seller && seller.isSeller) return seller
-      }else if(user && !sellerID){
-        if(user.isSeller){
-          seller = await User.findById(user.id)
-          return seller
-        }
-      }else throw new Error('User Unavailable', {errors :{general:"User Unavailable"}})
-  },
+   
     async getCart(_, {}, context) {
       let user = authHeader(context);
       if (user) {
@@ -107,13 +96,7 @@ module.exports = {
       }else throw new Error('No user Logged in', {errors:{general:"User not logged in"}})
     },
 
-    async getSellerProducts(_, {}, context) {
-      const user = authHeader(context);
-      if (user.isSeller) {
-        products = await Product.find({ sellerID: user.id });
-        return products;
-      } else throw new Error("Sorry you're not a seller yet.");
-    },
+    
 
     
 
@@ -246,23 +229,7 @@ module.exports = {
           errors: { general: "Not Logged In" },
         });
     },
-    async upgradeToSeller(_, {}, context) {
-      const presentuser = authHeader(context);
-
-      if (presentuser) {
-        let user = await User.findById(presentuser.id);
-        if (!user.isSeller) {
-          await User.findOneAndUpdate(
-            { username: user.username },
-            { isSeller: true },
-            { new: true }
-          );
-          user = await User.findOne({ _id: user.id });
-          return user;
-        } else
-          return new Error("User is already upgraded to Seller", { errors });
-      } else return new Error("User not logged in", { errors });
-    },
+    
 
     async addtoCart(_, { productID }, context) {
       let user = authHeader(context);
